@@ -25,6 +25,7 @@ municipio_cartorio = str(ler_celula_excel('f5'))
 data_emissao = str(ler_celula_excel('f6'))
 data_vistoria = str(ler_celula_excel('f8'))
 fluid = str(ler_celula_excel('c21'))
+memorial_descritivo = str(ler_celula_excel('c22'))
 
 # print(f"""
 # Proponente: {proponente}s
@@ -50,4 +51,5 @@ fluid = str(ler_celula_excel('c21'))
 # Município do Cartório: {municipio_cartorio}
 # Data de Emissão: {data_emissao}
 # Data de Vistoria: {data_vistoria}
+# morial descritivo: {memorial_descritivo}
 # """)
