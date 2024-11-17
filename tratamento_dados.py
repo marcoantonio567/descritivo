@@ -1,5 +1,6 @@
 from funcoes import *
 from leitura_excel import *
+from textos import *
 
 
 
@@ -16,10 +17,18 @@ area1 = area1.replace(".",",")
 area2 = area2.replace(".",",")
 
 #convertendo os valores para moeda
-valor_mercado = formatar_valor(valor_mercado)
-liquidacao_forcada = formatar_valor(liquidacao_forcada)
+valor_mercado_limpo = formatar_valor(valor_mercado)
+liquidacao_forcada_limpo = formatar_valor(liquidacao_forcada)
 
 #chamando funções
 data_atual = gerar_data_atual()
 mercado_extenso = valor_por_extenso(valor_mercado)
 liquidacao_extenso = valor_por_extenso(liquidacao_forcada)
+
+#resposta pro memorial descritivo
+#arrumar essa logica aqui
+if gel is not None:
+    resposta_gel_referenciamento = texto_do_gel
+elif gel is None :
+    if memorial_descritivo == 'sim':
+        resposta_gel_referenciamento = texto_memorial_descritivo
