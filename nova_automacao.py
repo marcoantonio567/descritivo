@@ -16,8 +16,8 @@ dados = {
     '#identificacao':identificacao,
     '#area_ha':area_ha,
     '#area_contruida':area_construida,
-    '#MERCADO':valor_mercado,
-    '#LIQUIDACAO':liquidacao_forcada,
+    '#MERCADO':valor_mercado_limpo,
+    '#LIQUIDACAO':liquidacao_forcada_limpo,
     '#gel':gel,
     '#CAR':car,
     '#area1':area1,
@@ -29,7 +29,7 @@ dados = {
     '#data_vistoria':data_vistoria,
     '#extensao_mercado':mercado_extenso,
     '#extensao_liquidacao':liquidacao_extenso,
-    'texto_georeferencimento':texto_memorial_descritivo_com_car,
+    'texto_georeferencimento':resposta_gel_referenciamento,
 
 }
 saida = 'teste.docx'
