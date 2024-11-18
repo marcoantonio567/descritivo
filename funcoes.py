@@ -79,7 +79,8 @@ def valor_por_extenso(valor_str):
         valor_extenso = f"{extenso_inteira} reais"
 
     return valor_extenso
-
+def substituir_ponto_por_virgulas(varivel):
+    return varivel.replace(".",",")
 
 
 

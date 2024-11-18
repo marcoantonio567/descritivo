@@ -1,6 +1,5 @@
-from funcoes import *
+from funcoes import substituir_palavras_documento , abrir_arquivo_word
 from tratamento_dados import *
-from textos import *
 
 
 dados = {
@@ -24,12 +23,16 @@ dados = {
     '#area2':area2,
     '#fluid':fluid,
     '#data_atual':data_atual,
-    '#data_solicitacao':data_solicitacao,
-    '#municipio_agencia':municipio_agencia,
-    '#data_vistoria':data_vistoria,
+    '#data_solicitacao':data_solicitacao_limpo,
+    '#data_vistoria':data_vistoria_limpo,
+    '#emissao_cartorio':data_emissao_limpo,
+    '#948':municipio_agencia,#agencia do municipio
     '#extensao_mercado':mercado_extenso,
     '#extensao_liquidacao':liquidacao_extenso,
     'texto_georeferencimento':resposta_gel_referenciamento,
+    '#texto_tipo_pessoa':resposta_tipo_pessoa,
+    '#texto_hipotecas':reposta_hipoteca,
+    '#7452':reposta_bioma,#verificando se o imovel ta inserido no bioma mazonioco ou não
 
 }
 saida = 'teste.docx'

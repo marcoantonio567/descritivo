@@ -6,15 +6,15 @@ from textos import *
 
 
 #tratando as datas
-data_solicitacao = formatar_data(data_solicitacao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
-data_emissao = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
-data_vistoria = formatar_data(data_vistoria)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
+data_solicitacao_limpo = formatar_data(data_solicitacao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
+data_emissao_limpo = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
+data_vistoria_limpo = formatar_data(data_vistoria)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 
 #colocando virgulas nas areas ao inves de pontos
-area_ha = area_ha.replace(".",",")
-area_construida = area_construida.replace(".",",")
-area1 = area1.replace(".",",")
-area2 = area2.replace(".",",")
+area_ha = substituir_ponto_por_virgulas(area_ha)
+area_construida = substituir_ponto_por_virgulas(area_construida)
+area1 = substituir_ponto_por_virgulas(area1)
+area2 = substituir_ponto_por_virgulas(area2)
 
 #convertendo os valores para moeda
 valor_mercado_limpo = formatar_valor(valor_mercado)
@@ -34,3 +34,22 @@ elif georeferenciamento == 'Memorial descritivo':
     resposta_gel_referenciamento = texto_memorial_descritivo
 elif georeferenciamento == 'CAR e Memorial':
     resposta_gel_referenciamento = texto_memorial_descritivo_com_car
+
+#resolvendo questões de tipo de pessoa
+
+if genero == 'empresa':
+    resposta_tipo_pessoa = texto_pessoa_juridica
+else:
+    resposta_tipo_pessoa = texto_pessoa_fisica
+
+#verificando se o imovel tem hipotecas pendentes ou não
+if hipotecas == 'sim':
+    reposta_hipoteca = texto_imovel_com_hipotecas
+elif hipotecas == 'não':
+    reposta_hipoteca = texto_imovel_sem_hipotecas
+
+#verificação se o imovel esta inserido no bioma amazonico
+if bioma_amazonico == 'sim':
+    reposta_bioma = texto_bioma_inserido
+elif bioma_amazonico == 'não':
+    reposta_bioma = texto_bioma_nao_inserido

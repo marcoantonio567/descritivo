@@ -28,6 +28,9 @@ data_emissao = str(ler_celula_excel('f6'))
 data_vistoria = str(ler_celula_excel('f8'))
 fluid = str(ler_celula_excel('c21'))
 georeferenciamento = str(ler_celula_excel('c22'))
+genero = str(ler_celula_excel('f9'))
+hipotecas = str(ler_celula_excel('c23'))
+bioma_amazonico = str(ler_celula_excel('c24'))
 
 # print(f"""
 # Proponente: {proponente}s
@@ -53,5 +56,8 @@ georeferenciamento = str(ler_celula_excel('c22'))
 # Município do Cartório: {municipio_cartorio}
 # Data de Emissão: {data_emissao}
 # Data de Vistoria: {data_vistoria}
-# morial descritivo: {memorial_descritivo}
+# georeferenciamento : {georeferenciamento}
+# genero: {genero}
+# hipotecas : {hipotecas}
+# bioma amazonico : {bioma_amazonico}
 # """)
