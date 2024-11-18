@@ -1,4 +1,6 @@
 from funcoes import ler_celula_excel
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
 
 proponente = str(ler_celula_excel('c2'))
@@ -25,7 +27,7 @@ municipio_cartorio = str(ler_celula_excel('f5'))
 data_emissao = str(ler_celula_excel('f6'))
 data_vistoria = str(ler_celula_excel('f8'))
 fluid = str(ler_celula_excel('c21'))
-memorial_descritivo = str(ler_celula_excel('c22'))
+georeferenciamento = str(ler_celula_excel('c22'))
 
 # print(f"""
 # Proponente: {proponente}s
