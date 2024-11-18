@@ -25,10 +25,12 @@ data_atual = gerar_data_atual()
 mercado_extenso = valor_por_extenso(valor_mercado)
 liquidacao_extenso = valor_por_extenso(liquidacao_forcada)
 
-#resposta pro memorial descritivo
-#arrumar essa logica aqui
-if gel is not None:
+#resposta para o memorial descritivo
+if georeferenciamento == 'GEL':
     resposta_gel_referenciamento = texto_do_gel
-elif gel is None :
-    if memorial_descritivo == 'sim':
-        resposta_gel_referenciamento = texto_memorial_descritivo
+elif georeferenciamento == 'CAR':
+    resposta_gel_referenciamento = texto_car
+elif georeferenciamento == 'Memorial descritivo':
+    resposta_gel_referenciamento = texto_memorial_descritivo
+elif georeferenciamento == 'CAR e Memorial':
+    resposta_gel_referenciamento = texto_memorial_descritivo_com_car
