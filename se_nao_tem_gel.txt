@@ -1,5 +1,7 @@
-se não tem gel :
-
-Sua localização foi obtida através do mesmo  , OU DO CAR , OU DO MEMORIAL DESCRITIVO
-
-como foi obtido a área , pelo car ou pelo memorial descritivo
+Function verifica_empresa(f9 As String) As String
+    If f19 = "empresa" Then
+        verifica_empresa = "não precisa preencher esse campo"
+    Else
+        verifica_empresa = "propietario casado?"
+    End If
+End Function

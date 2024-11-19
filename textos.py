@@ -7,11 +7,14 @@ texto_car = f'O imóvel de matrícula nº {matricula} não possui georeferenciam
 
 texto_pessoa_juridica = f'Conforme a matrícula n° {matricula}, o imóvel tem como proprietária a pessoa jurídica {propietario}, inscrita no CNPJ de n° {cpf_cpnj_propietario}.'
 texto_pessoa_fisica = f'Conforme a matrícula n° {matricula}, o imóvel em questão é de propriedade do {genero} {propietario}, inscrito no CPF nº {cpf_cpnj_propietario}.'
+if genero_casamento == 'Sra.':
+    texto_pessoa_fisica_casada = f'Conforme a matrícula n° {matricula}, o imóvel tem como proprietário o {genero} {propietario}, inscrito no CPF nº {cpf_cpnj_propietario}, juntamente com sua esposa, a Sra. {nome_casamento}, inscrita no CPF n° {cpf_casamento}.'
+elif genero_casamento == 'Sr.':
+    texto_pessoa_fisica_casada = f'Conforme a matrícula n° {matricula}, o imóvel tem como proprietário o {genero} {propietario}, inscrito no CPF nº {cpf_cpnj_propietario}, juntamente com seu esposo, o Sr. {nome_casamento}, inscrito no CPF n° {cpf_casamento}.'
 
-
+    
 texto_imovel_sem_hipotecas = f'Conforme averbações da matrícula n° {matricula}, o imóvel não possui hipotecas pendentes.'
 texto_imovel_com_hipotecas = f'De acordo com o registro da matrícula n° {matricula}, o imóvel possui registro de hipoteca pendente.'
 
 texto_bioma_inserido = f'O imóvel está inserido no Bioma Amazônico.'
 texto_bioma_nao_inserido = f'O imóvel não está inserido no Bioma Amazônico.'
-

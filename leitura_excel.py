@@ -31,7 +31,10 @@ georeferenciamento = str(ler_celula_excel('c22'))
 genero = str(ler_celula_excel('f9'))
 hipotecas = str(ler_celula_excel('c23'))
 bioma_amazonico = str(ler_celula_excel('c24'))
-
+casamento = str(ler_celula_excel('f10'))
+genero_casamento = str(ler_celula_excel('f11'))
+nome_casamento = str(ler_celula_excel('f12'))
+cpf_casamento = str(ler_celula_excel('f13'))
 # print(f"""
 # Proponente: {proponente}s
 # CPF/CNPJ do Proponente: {cpf_cpnj_proponente}

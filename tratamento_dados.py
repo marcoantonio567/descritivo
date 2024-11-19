@@ -36,11 +36,13 @@ elif georeferenciamento == 'CAR e Memorial':
     resposta_gel_referenciamento = texto_memorial_descritivo_com_car
 
 #resolvendo questões de tipo de pessoa
-
 if genero == 'empresa':
     resposta_tipo_pessoa = texto_pessoa_juridica
 else:
-    resposta_tipo_pessoa = texto_pessoa_fisica
+    if casamento == 'sim':
+        resposta_tipo_pessoa = texto_pessoa_fisica_casada
+    else:
+        resposta_tipo_pessoa = texto_pessoa_fisica
 
 #verificando se o imovel tem hipotecas pendentes ou não
 if hipotecas == 'sim':
