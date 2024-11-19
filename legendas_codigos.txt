@@ -1,2 +1,0 @@
-#948 = agencia do municipio
-#7452 = texto que veirifica se o bioma ta inserido ou não no bioma

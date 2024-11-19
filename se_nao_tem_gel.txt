@@ -1,7 +1,0 @@
-Function verifica_empresa(f9 As String) As String
-    If f19 = "empresa" Then
-        verifica_empresa = "não precisa preencher esse campo"
-    Else
-        verifica_empresa = "propietario casado?"
-    End If
-End Function

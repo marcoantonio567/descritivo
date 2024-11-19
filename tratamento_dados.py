@@ -24,6 +24,7 @@ liquidacao_forcada_limpo = formatar_valor(liquidacao_forcada)
 data_atual = gerar_data_atual()
 mercado_extenso = valor_por_extenso(valor_mercado)
 liquidacao_extenso = valor_por_extenso(liquidacao_forcada)
+rota_de_acesso = escolher_e_ler_arquivo_txt()
 
 #resposta para o memorial descritivo
 if georeferenciamento == 'GEL':
@@ -55,3 +56,26 @@ if bioma_amazonico == 'sim':
     reposta_bioma = texto_bioma_inserido
 elif bioma_amazonico == 'não':
     reposta_bioma = texto_bioma_nao_inserido
+
+
+
+#tratando se é cpf ou cnpj 
+
+#propietario
+if genero == 'empresa' or len(cpf_cpnj_propietario) == 18:
+    reposta_cpf_cnpj_propietario = "CNPJ"
+else:
+    reposta_cpf_cnpj_propietario = "CPF"
+
+#proponente
+if len(cpf_cpnj_proponente) == 14 or len(cpf_cpnj_proponente) == 11:
+    reposta_cpf_cnpj_proponente = "CPF"
+else:
+    reposta_cpf_cnpj_proponente = "CNPJ"
+
+
+#arrumando bacia e sub-bacia
+if sub_bacia == 'None':#aqui eu sei que se a sub-bacia for none eu sei que so vai ter barcia
+    resposta_sistema_hidrografico = texto_bacia
+else:
+    resposta_sistema_hidrografico = texto_sub_bacia

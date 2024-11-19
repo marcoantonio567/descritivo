@@ -5,6 +5,8 @@ from num2words import num2words
 import openpyxl
 import os
 import re
+import tkinter as tk
+from tkinter import filedialog
 
 def formatar_data(data_str):
     data = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S")
@@ -81,6 +83,26 @@ def valor_por_extenso(valor_str):
     return valor_extenso
 def substituir_ponto_por_virgulas(varivel):
     return varivel.replace(".",",")
+def escolher_e_ler_arquivo_txt():
+    # Cria uma interface gráfica oculta apenas para usar o filedialog
+    root = tk.Tk()
+    root.withdraw()  # Oculta a janela principal
 
+    # Abre a janela para o usuário escolher um arquivo
+    caminho_arquivo = filedialog.askopenfilename(
+        title="Escolha um arquivo de bloco de notas",
+        filetypes=[("Text files", "*.txt")]
+    )
 
-
+    if caminho_arquivo:
+        try:
+            with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+                conteudo = arquivo.read()
+                
+                return conteudo
+        except FileNotFoundError:
+            print("Arquivo não encontrado.")
+        except Exception as e:
+            print(f"Erro ao ler o arquivo: {e}")
+    else:
+        return None

@@ -1,6 +1,6 @@
 from funcoes import ler_celula_excel
 import warnings
-warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
+warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")#aqui eu to tirando um aviso de erro que tinha no terminal, para não preucupar os desenvolvedores
 
 
 proponente = str(ler_celula_excel('c2'))
@@ -35,6 +35,10 @@ casamento = str(ler_celula_excel('f10'))
 genero_casamento = str(ler_celula_excel('f11'))
 nome_casamento = str(ler_celula_excel('f12'))
 cpf_casamento = str(ler_celula_excel('f13'))
+bacia = str(ler_celula_excel('c25'))
+sub_bacia = str(ler_celula_excel('c26'))
+
+
 # print(f"""
 # Proponente: {proponente}s
 # CPF/CNPJ do Proponente: {cpf_cpnj_proponente}

@@ -18,3 +18,7 @@ texto_imovel_com_hipotecas = f'De acordo com o registro da matrícula n° {matri
 
 texto_bioma_inserido = f'O imóvel está inserido no Bioma Amazônico.'
 texto_bioma_nao_inserido = f'O imóvel não está inserido no Bioma Amazônico.'
+
+
+texto_bacia = f'O imóvel está contido dentro do Sistema Hidrográfico Bacia do {bacia}.'
+texto_sub_bacia = f'O imóvel está contido dentro do Sistema Hidrográfico Bacia do {bacia}, e Sub-Bacia {sub_bacia}.'

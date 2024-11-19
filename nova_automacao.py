@@ -33,7 +33,11 @@ dados = {
     '#texto_tipo_pessoa':resposta_tipo_pessoa,
     '#texto_hipotecas':reposta_hipoteca,
     '#7452':reposta_bioma,#verificando se o imovel ta inserido no bioma mazonioco ou não
-
+    '#486':reposta_cpf_cnpj_proponente,#cpf ou cnpj do proponente
+    '#485':reposta_cpf_cnpj_propietario,#cpf ou cnpj do propietario
+    '#rota_acess':rota_de_acesso,
+    '#texto_bacia':resposta_sistema_hidrografico,
+    
 }
 saida = 'teste.docx'
 substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,saida)
