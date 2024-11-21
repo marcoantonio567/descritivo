@@ -6,7 +6,7 @@ import openpyxl
 import os
 import re
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import messagebox, ttk ,filedialog
 
 def formatar_data(data_str):
     data = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S")
@@ -106,3 +106,176 @@ def escolher_e_ler_arquivo_txt():
             print(f"Erro ao ler o arquivo: {e}")
     else:
         return None
+def selecionar_declividade():
+    arquivo = 'integracao.xlsx'
+    aba_nome = 'DECLIVIDADE E PEDOLOGIA'  # Nome da aba onde os dados estão localizados
+    coluna = 2  # Número da coluna que você quer ler (por exemplo, 2 para coluna B)
+
+    # Função para ler a coluna específica da aba
+    def ler_coluna_excel(arquivo, aba_nome, coluna):
+        try:
+            workbook = openpyxl.load_workbook(arquivo)
+            aba = workbook[aba_nome]
+            valores = []
+            for linha in aba.iter_rows(min_col=coluna, max_col=coluna + 1, min_row=3,max_row=8, values_only=True):
+                if linha[0] is not None:
+                    valores.append((linha[0], linha[1]))  # Adiciona o valor da coluna e a célula da direita
+            return valores
+        except FileNotFoundError:
+            messagebox.showerror("Erro", f"Arquivo '{arquivo}' não encontrado.")
+        except KeyError:
+            messagebox.showerror("Erro", f"Aba '{aba_nome}' não encontrada no arquivo Excel.")
+        return []
+
+    # Função para exibir a lista e permitir que o usuário selecione um ou mais valores
+    def selecionar_valor(valores):
+        selecoes = []
+
+        def confirmar_selecao():
+            selecao = listbox.curselection()
+            if selecao:
+                for index in selecao:
+                    selecionado = valores[index]
+                    selecoes.append(selecionado)
+                janela.destroy()
+            else:
+                messagebox.showwarning("Atenção", "Nenhum valor selecionado!")
+
+        # Criação da interface gráfica
+        janela = tk.Tk()
+        janela.title("Seleção de Valores do Excel")
+        janela.geometry("500x400")
+        janela.configure(bg="#e6f7ff")
+
+        # Rótulo de instrução
+        rotulo_instrucao = ttk.Label(janela, text="Selecione um ou mais valores da lista abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
+        rotulo_instrucao.pack(pady=(10, 5))
+
+        # Listbox com barra de rolagem
+        frame_listbox = tk.Frame(janela, bg="#e6f7ff")
+        frame_listbox.pack(padx=20, pady=10, fill=tk.BOTH, expand=True)
+
+        scrollbar = tk.Scrollbar(frame_listbox, orient=tk.VERTICAL)
+        listbox = tk.Listbox(frame_listbox, selectmode=tk.MULTIPLE, yscrollcommand=scrollbar.set, height=10, width=50, bg="#ffffff", fg="#003366", font=("Arial", 10))
+        scrollbar.config(command=listbox.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        for valor in valores:
+            listbox.insert(tk.END, valor[0])
+
+        # Botão para confirmar a seleção
+        botao_confirmar = ttk.Button(janela, text="Confirmar Seleção", command=confirmar_selecao)
+        botao_confirmar.pack(pady=(5, 15))
+
+        # Tornar a janela responsiva
+        janela.grid_rowconfigure(0, weight=1)
+        janela.grid_columnconfigure(0, weight=1)
+        frame_listbox.grid_rowconfigure(0, weight=1)
+        frame_listbox.grid_columnconfigure(0, weight=1)
+
+        janela.mainloop()
+        return selecoes
+
+    # Lê a coluna do Excel e exibe a interface para seleção
+    valores_coluna = ler_coluna_excel(arquivo, aba_nome, coluna)
+    if valores_coluna:
+        return selecionar_valor(valores_coluna)
+    else:
+        return []
+def selecionar_pedologia():
+    arquivo = 'integracao.xlsx'
+    aba_nome = 'DECLIVIDADE E PEDOLOGIA'  # Nome da aba onde os dados estão localizados
+    coluna = 2  # Número da coluna que você quer ler (por exemplo, 2 para coluna B)
+
+    # Função para ler a coluna específica da aba
+    def ler_coluna_excel(arquivo, aba_nome, coluna):
+        try:
+            workbook = openpyxl.load_workbook(arquivo)
+            aba = workbook[aba_nome]
+            valores = []
+            for linha in aba.iter_rows(min_col=coluna, max_col=coluna + 1, min_row=14,max_row=33, values_only=True):
+                if linha[0] is not None:
+                    valores.append((linha[0], linha[1]))  # Adiciona o valor da coluna e a célula da direita
+            return valores
+        except FileNotFoundError:
+            messagebox.showerror("Erro", f"Arquivo '{arquivo}' não encontrado.")
+        except KeyError:
+            messagebox.showerror("Erro", f"Aba '{aba_nome}' não encontrada no arquivo Excel.")
+        return []
+
+    # Função para exibir a lista e permitir que o usuário selecione um ou mais valores
+    def selecionar_valor(valores):
+        selecoes = []
+
+        def confirmar_selecao():
+            selecao = listbox.curselection()
+            if selecao:
+                for index in selecao:
+                    selecionado = valores[index]
+                    selecoes.append(selecionado)
+                janela.destroy()
+            else:
+                messagebox.showwarning("Atenção", "Nenhum valor selecionado!")
+
+        # Criação da interface gráfica
+        janela = tk.Tk()
+        janela.title("Seleção de Valores do Excel")
+        janela.geometry("500x400")
+        janela.configure(bg="#e6f7ff")
+
+        # Rótulo de instrução
+        rotulo_instrucao = ttk.Label(janela, text="Selecione um ou mais valores da lista abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
+        rotulo_instrucao.pack(pady=(10, 5))
+
+        # Listbox com barra de rolagem
+        frame_listbox = tk.Frame(janela, bg="#e6f7ff")
+        frame_listbox.pack(padx=20, pady=10, fill=tk.BOTH, expand=True)
+
+        scrollbar = tk.Scrollbar(frame_listbox, orient=tk.VERTICAL)
+        listbox = tk.Listbox(frame_listbox, selectmode=tk.MULTIPLE, yscrollcommand=scrollbar.set, height=10, width=50, bg="#ffffff", fg="#003366", font=("Arial", 10))
+        scrollbar.config(command=listbox.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        for valor in valores:
+            listbox.insert(tk.END, valor[0])
+
+        # Botão para confirmar a seleção
+        botao_confirmar = ttk.Button(janela, text="Confirmar Seleção", command=confirmar_selecao)
+        botao_confirmar.pack(pady=(5, 15))
+
+        # Tornar a janela responsiva
+        janela.grid_rowconfigure(0, weight=1)
+        janela.grid_columnconfigure(0, weight=1)
+        frame_listbox.grid_rowconfigure(0, weight=1)
+        frame_listbox.grid_columnconfigure(0, weight=1)
+
+        janela.mainloop()
+        return selecoes
+
+    # Lê a coluna do Excel e exibe a interface para seleção
+    valores_coluna = ler_coluna_excel(arquivo, aba_nome, coluna)
+    if valores_coluna:
+        return selecionar_valor(valores_coluna)
+    else:
+        return []
+def gerar_texto(lista_tuplas):
+    texto = ""
+    for item in lista_tuplas:
+        paragrafo = f"\t{item[0]} {item[1]}\n"
+        texto += paragrafo
+    return texto
+
+
+
+
+
+
+
+
+
+
+
+
+

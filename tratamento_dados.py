@@ -4,7 +4,6 @@ from textos import *
 
 
 
-
 #tratando as datas
 data_solicitacao_limpo = formatar_data(data_solicitacao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 data_emissao_limpo = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
@@ -24,6 +23,10 @@ liquidacao_forcada_limpo = formatar_valor(liquidacao_forcada)
 data_atual = gerar_data_atual()
 mercado_extenso = valor_por_extenso(valor_mercado)
 liquidacao_extenso = valor_por_extenso(liquidacao_forcada)
+declividades = selecionar_declividade()
+pedologias = selecionar_pedologia()
+texto_das_desclividades = gerar_texto(declividades)
+texto_das_pedologias = gerar_texto(pedologias)
 rota_de_acesso = escolher_e_ler_arquivo_txt()
 
 #resposta para o memorial descritivo
@@ -60,7 +63,6 @@ elif bioma_amazonico == 'não':
 
 
 #tratando se é cpf ou cnpj 
-
 #propietario
 if genero == 'empresa' or len(cpf_cpnj_propietario) == 18:
     reposta_cpf_cnpj_propietario = "CNPJ"

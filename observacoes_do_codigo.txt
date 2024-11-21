@@ -5,3 +5,5 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #7452 = texto que veirifica se o bioma ta inserido ou não no bioma
 #485 = aqui vai ser cpf ou cnpj
 #486 = aqui vai ser cpf ou cnpj
+#3498 = texto das declividades
+#3497 = texto das pedologias

@@ -37,6 +37,8 @@ dados = {
     '#485':reposta_cpf_cnpj_propietario,#cpf ou cnpj do propietario
     '#rota_acess':rota_de_acesso,
     '#texto_bacia':resposta_sistema_hidrografico,
+    '#3498':texto_das_desclividades,
+    '#3497':texto_das_pedologias,
     
 }
 saida = 'teste.docx'
