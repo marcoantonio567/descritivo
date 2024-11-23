@@ -29,7 +29,7 @@ def buscar_excel():
         print("Nenhum arquivo selecionado.")
         return None
 
-def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao):
+def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao,tamanho):
     file_docx= 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
     excel_file = documento_Excel
     excel = win32.Dispatch("Excel.Application")
@@ -72,10 +72,10 @@ def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao):
             paragraph.text = paragraph.text.replace(placeholder, "")
             # Inserir a imagem após o parágrafo
             run = paragraph.add_run()
-            run.add_picture(img_path, width=Inches(5))  # Defina a largura como desejar
+            run.add_picture(img_path, width=Inches(tamanho))  # Defina a largura como desejar
 
     # Salvar o documento Word
-    document_path_output = 'testando.docx'
+    document_path_output = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
     doc.save(document_path_output)
 
     # Remover a imagem temporária
@@ -84,8 +84,18 @@ def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao):
     print("alteração feito com sucesso")
 
 
-documento_Excel = buscar_excel()
+documento_Excel = 'estattis_automação.xlsx'
 #area ultil do imove
-colar_Tabelas('AREA UTIL ','C4:J13','#sdkjbf')
+colar_Tabelas('AREA UTIL ','C4:J13','#sdkjbf',tamanho=6.8)
 #area de uso do imovel
-colar_Tabelas('AREA UTIL ','C16:I20','#5213')
+colar_Tabelas('AREA UTIL ','C16:I20','#5213',tamanho=5.9)
+#quadro de homogeneização
+colar_Tabelas('PLANILHA HOMOG','A3:R25','#12863',tamanho=10.4)
+#saneamento das amostras
+colar_Tabelas('SANEAMENTO','C4:H14','#28731',tamanho=3.9)
+#valor da terra nua apurado
+colar_Tabelas('SANEAMENTO','C16:H20','#123452',tamanho=4)
+#calculo do valor de liquidação forçada 
+colar_Tabelas('LIQUIDAÇÃO','C5:H11','#1313',tamanho=4.5)
+#quadro de amostras
+colar_Tabelas('QUADRO','B3:L9','#12746',tamanho=9.7)

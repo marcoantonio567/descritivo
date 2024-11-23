@@ -7,3 +7,10 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #486 = aqui vai ser cpf ou cnpj
 #3498 = texto das declividades
 #3497 = texto das pedologias
+#12863 = planilha de homogeneização
+#sdkjbf = area util do imovel
+#5213 = area de uso
+#28731 = santeamento das amostras
+#123452 = valor da terra nua apurado
+#12746 = quadro das amostras
+#1313 = calculo de valor da liquidação forçada
