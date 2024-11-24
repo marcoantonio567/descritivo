@@ -14,3 +14,10 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #123452 = valor da terra nua apurado
 #12746 = quadro das amostras
 #1313 = calculo de valor da liquidação forçada
+#3421 = tabela da amostra 1
+#3422 = tabela da amostra 2
+#3423 = tabela da amostra 3
+#3424 = tabela da amostra 4
+#3425 = tabela da amostra 5
+#3426 = tabela da amostra 6
+#9181 = tabela do imovel avaliando

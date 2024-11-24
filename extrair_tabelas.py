@@ -4,7 +4,7 @@ from PIL import ImageGrab
 import win32com.client as win32
 import win32clipboard as clipboard
 from docx.shared import Inches
-import pandas as pd
+import openpyxl
 import tkinter as tk
 from tkinter import filedialog
 
@@ -28,7 +28,6 @@ def buscar_excel():
     else:
         print("Nenhum arquivo selecionado.")
         return None
-
 def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao,tamanho):
     file_docx= 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
     excel_file = documento_Excel
@@ -82,9 +81,70 @@ def colar_Tabelas(pagina_xlsx,intervalo_tabela,code_substituicao,tamanho):
     os.remove(img_path)
 
     print("alteração feito com sucesso")
+def verificar_celula(planilha, celula):
+    # Obtém o valor da célula especificada
+    valor = planilha[celula].value
+    return valor
+def extrair_amostras(file_excel):
+    caminho_arquivo = file_excel
+    nome_planilha = 'AMOSTRAS'
+
+    # Abre o arquivo Excel uma única vez
+    workbook = openpyxl.load_workbook(caminho_arquivo, data_only=True)
+    planilha = workbook[nome_planilha]
+    
+    intervalos = []
+    intervalo_inicial = "B3"
+    letra_fim = 'I'
+    letra_inicio = 'B'
+    letra_atual = 'F'
+    numero_celula_atual = 10
+
+    for i in range(7):
+        celula_atual = letra_atual + str(numero_celula_atual)
+
+        # Encontra a última célula não nula na coluna 'F'
+        while verificar_celula(planilha, celula_atual) is not None:
+            numero_celula_atual += 1
+            celula_atual = letra_atual + str(numero_celula_atual)
+
+        # Define o intervalo final com a última célula não nula encontrada
+        numero_celula_atual -= 1
+        intervalo_final = letra_fim + str(numero_celula_atual)
+
+        # Adiciona o intervalo encontrado à lista de intervalos
+        intervalos.append(f'{intervalo_inicial}:{intervalo_final}')
+
+        # Atualiza o próximo intervalo inicial
+        numero_celula_atual += 2
+        intervalo_inicial = letra_inicio + str(numero_celula_atual)
+
+        # Atualiza para a próxima célula a ser verificada
+        numero_celula_atual += 8
+
+    return intervalos
+def remove_primeiro_item(element):
+    print(f'lista recebida {element}')
+    if element:
+        element.pop(0)  # Remove o primeiro item da element
+    print(f'lista enviada {element}')
+    return element
+    
+documento_Excel = buscar_excel()
+intervalos_extraidos = extrair_amostras(documento_Excel)
+intervalos_extraidos_limpo = remove_primeiro_item(extrair_amostras(documento_Excel))
+
+#extraindo a tabela do imovel avaliando
+colar_Tabelas('AMOSTRAS',str(intervalos_extraidos[0]),'#9181',tamanho=7)
+
+#extraindo as tabelas das amostras
+codigo = 3421
+for intervalo in intervalos_extraidos_limpo:
+
+    colar_Tabelas('AMOSTRAS',str(intervalo),f'#{codigo}',tamanho=7)
+    codigo +=1
 
 
-documento_Excel = 'estattis_automação.xlsx'
 #area ultil do imove
 colar_Tabelas('AREA UTIL ','C4:J13','#sdkjbf',tamanho=6.8)
 #area de uso do imovel
