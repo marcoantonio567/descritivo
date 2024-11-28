@@ -128,8 +128,7 @@ def remove_primeiro_item(element):
     if element:
         element.pop(0)  # Remove o primeiro item da element
     print(f'lista enviada {element}')
-    return element
-    
+    return element 
 documento_Excel = buscar_excel()
 intervalos_extraidos = extrair_amostras(documento_Excel)
 intervalos_extraidos_limpo = remove_primeiro_item(extrair_amostras(documento_Excel))
