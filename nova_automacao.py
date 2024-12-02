@@ -29,16 +29,17 @@ dados = {
     '#948':municipio_agencia,#agencia do municipio
     '#extensao_mercado':mercado_extenso,
     '#extensao_liquidacao':liquidacao_extenso,
-    'texto_georeferencimento':resposta_gel_referenciamento,
+    'texto_georeferencimento':fazer_texto_georeferenciamento(),
     '#texto_tipo_pessoa':resposta_tipo_pessoa,
-    '#texto_hipotecas':reposta_hipoteca,
-    '#7452':reposta_bioma,#verificando se o imovel ta inserido no bioma mazonioco ou não
+    '#texto_hipotecas':hipotecas_reposta(),
+    '#7452':reposta_bioma(),#verificando se o imovel ta inserido no bioma mazonioco ou não
     '#486':reposta_cpf_cnpj_proponente,#cpf ou cnpj do proponente
     '#485':reposta_cpf_cnpj_propietario,#cpf ou cnpj do propietario
     '#rota_acess':rota_de_acesso,
     '#texto_bacia':resposta_sistema_hidrografico,
     '#3498':texto_das_desclividades,
     '#3497':texto_das_pedologias,
+    '#5271':registro_imovel(),
     
 }
 saida = 'teste.docx'

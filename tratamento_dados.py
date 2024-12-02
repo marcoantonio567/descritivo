@@ -29,15 +29,6 @@ texto_das_desclividades = gerar_texto(declividades)
 texto_das_pedologias = gerar_texto(pedologias)
 rota_de_acesso = escolher_e_ler_arquivo_txt()
 
-#resposta para o memorial descritivo
-if georeferenciamento == 'GEL':
-    resposta_gel_referenciamento = texto_do_gel
-elif georeferenciamento == 'CAR':
-    resposta_gel_referenciamento = texto_car
-elif georeferenciamento == 'Memorial descritivo':
-    resposta_gel_referenciamento = texto_memorial_descritivo
-elif georeferenciamento == 'CAR e Memorial':
-    resposta_gel_referenciamento = texto_memorial_descritivo_com_car
 
 #resolvendo questões de tipo de pessoa
 if genero == 'empresa':
@@ -48,17 +39,6 @@ else:
     else:
         resposta_tipo_pessoa = texto_pessoa_fisica
 
-#verificando se o imovel tem hipotecas pendentes ou não
-if hipotecas == 'sim':
-    reposta_hipoteca = texto_imovel_com_hipotecas
-elif hipotecas == 'não':
-    reposta_hipoteca = texto_imovel_sem_hipotecas
-
-#verificação se o imovel esta inserido no bioma amazonico
-if bioma_amazonico == 'sim':
-    reposta_bioma = texto_bioma_inserido
-elif bioma_amazonico == 'não':
-    reposta_bioma = texto_bioma_nao_inserido
 
 
 
@@ -81,3 +61,31 @@ if sub_bacia == 'None':#aqui eu sei que se a sub-bacia for none eu sei que so va
     resposta_sistema_hidrografico = texto_bacia
 else:
     resposta_sistema_hidrografico = texto_sub_bacia
+
+#resposta para o memorial descritivo
+def fazer_texto_georeferenciamento():
+    resposta_gel_referenciamento = []
+    for item in data_imoveis:
+        if georeferenciamento == 'GEL':
+            resposta_gel_referenciamento.append(texto_do_gel(str(item[0])))
+        elif georeferenciamento == 'CAR':
+            resposta_gel_referenciamento.append(texto_car(str(item[0])))
+        elif georeferenciamento == 'Memorial descritivo':
+            resposta_gel_referenciamento.append(texto_memorial_descritivo(str(item[0])))
+        elif georeferenciamento == 'CAR e Memorial':
+            resposta_gel_referenciamento.append(texto_memorial_descritivo_com_car(str(item[0])))
+    
+    texto_output = "\n\n".join(resposta_gel_referenciamento)
+    return texto_output
+
+def registro_imovel():
+    return texto_registro(quantidade_matriculas)
+
+#verificando se o imovel tem hipotecas pendentes ou não
+def hipotecas_reposta():
+    return texto_hipotecas(quantidade_matriculas)
+
+#verificação se o imovel esta inserido no bioma amazonico
+def reposta_bioma():
+    return texto_bioma(quantidade_matriculas)
+

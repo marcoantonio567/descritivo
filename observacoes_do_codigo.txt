@@ -21,3 +21,4 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #3425 = tabela da amostra 5
 #3426 = tabela da amostra 6
 #9181 = tabela do imovel avaliando
+#5271 = texto em qual car o imovel esta registrado
