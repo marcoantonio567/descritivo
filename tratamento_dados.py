@@ -2,8 +2,8 @@ from funcoes import *
 from leitura_excel import *
 from textos import *
 
-
-
+word_filee = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
+substituir_cabecalho(texto_cabecalho,word_filee,word_filee)
 #tratando as datas
 data_solicitacao_limpo = formatar_data(data_solicitacao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 data_emissao_limpo = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
@@ -28,19 +28,8 @@ pedologias = selecionar_pedologia()
 texto_das_desclividades = gerar_texto(declividades)
 texto_das_pedologias = gerar_texto(pedologias)
 rota_de_acesso = escolher_e_ler_arquivo_txt()
-
-
-#resolvendo questões de tipo de pessoa
-if genero == 'empresa':
-    resposta_tipo_pessoa = texto_pessoa_juridica
-else:
-    if casamento == 'sim':
-        resposta_tipo_pessoa = texto_pessoa_fisica_casada
-    else:
-        resposta_tipo_pessoa = texto_pessoa_fisica
-
-
-
+print(mercado_extenso)
+print(liquidacao_extenso)
 
 #tratando se é cpf ou cnpj 
 #propietario
@@ -88,4 +77,3 @@ def hipotecas_reposta():
 #verificação se o imovel esta inserido no bioma amazonico
 def reposta_bioma():
     return texto_bioma(quantidade_matriculas)
-

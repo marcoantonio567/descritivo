@@ -5,8 +5,6 @@ from leitura_excel import agencia , uf , nome_imovel , municipio
 
 
 
-
-
 arquivo = 'integracao.xlsx'
 workbook = load_workbook(arquivo,data_only=True)
 
@@ -81,16 +79,18 @@ def ler_propietarios(quantidade):
     linha_maxima =  quantidade +2
     
     nome_planilha = 'propietarios'
-    # Abre o arquivo Excel com data_only=True para ler o valor das fórmulas
-    
+
     # Seleciona a pagina especificada
     pagina = workbook[nome_planilha]
     # Obtém o valor da célula especificada
     propietarios = []
-    for linha in pagina.iter_rows(values_only=True,min_col=3,min_row=3,max_row=linha_maxima):
-        nome = linha[0]
-        cpf_cnpj = linha[1]
-        propietarios.append((nome,cpf_cnpj))
+    for linha in pagina.iter_rows(values_only=True,min_col=1,min_row=3,max_row=linha_maxima):
+        genero = linha[0]
+        porcentagem = linha[1]
+        nome = linha[2]
+        cpf_cnpj = linha[3]
+        casado = linha[4]
+        propietarios.append((nome,cpf_cnpj,porcentagem,casado,genero))
    
     return propietarios
 def ler_matriculas(quantidade):
@@ -207,8 +207,24 @@ def fazer_valores():
         editar_celula(letra_meio+str(numero_ultima_celula),str(formatar_para_real(item[4])))
         editar_celula(letra_fim+str(numero_ultima_celula),str(formatar_para_real(item[5])))
         mesclar_celulas(numero_ultima_celula,intervalos_para_mesclar,centralizar=True)
+def ler_casamento(quantidade):
+    linha_maxima = quantidade+14
+    nome_planilha = 'propietarios'
 
+    # Seleciona a pagina especificada
+    pagina = workbook[nome_planilha]
+    # Obtém o valor da célula especificada
+    casamentos = []
+    for linha in pagina.iter_rows(values_only=True,min_col=2,min_row=15,max_row=linha_maxima):
+        genero = linha[0]
+        nome = linha[1]
+        cpf = linha[2]
+        casamentos.append((genero,nome,cpf))
+    return casamentos
 
+# fazer_quadro_resumo()>>>>>>>>  ______________________________________________
+# fazer_imovel()>>>>>>>>>>>>>>  |aqui são as funções que fazem a capa do laudo|
+# fazer_valores()>>>>>>>>>>>>   ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 workbook.save(arquivo)
 workbook.close()

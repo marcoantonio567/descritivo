@@ -1,4 +1,6 @@
 from decimal import Decimal, InvalidOperation
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.shared import Pt
 from docx import Document
 from datetime import datetime
 from num2words import num2words
@@ -266,6 +268,27 @@ def gerar_texto(lista_tuplas):
         paragrafo = f"\t{item[0]} {item[1]}\n"
         texto += paragrafo
     return texto
+def substituir_cabecalho(texto,entrada,saida):
+    # Carregar o documento Word
+    doc = Document(entrada)
+
+    # Acessar o cabeçalho da seção 1
+    section = doc.sections[0]
+    header = section.header
+
+    # Modificar apenas o texto do cabeçalho, preservando imagens e formatação
+    for paragraph in header.paragraphs:
+        if paragraph.text.strip():
+            paragraph.clear()
+            run = paragraph.add_run(texto)
+            run.font.size = Pt(11)
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            break
+
+    # Salvar o documento modificado
+    doc.save(saida)
+
+    print("O cabeçalho da Seção 1 foi modificado com sucesso.")
 
 
 

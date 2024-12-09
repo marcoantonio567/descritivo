@@ -1,6 +1,8 @@
-from funcoes import substituir_palavras_documento , abrir_arquivo_word
+from funcoes import substituir_palavras_documento , abrir_arquivo_word 
 from tratamento_dados import *
+#from extrair_tabelas import rodar_extracao_tabelas
 
+#rodar_extracao_tabelas()#aqui to extraindo todas as tabelas primeiro
 
 dados = {
     '#proponente':proponente,
@@ -27,10 +29,10 @@ dados = {
     '#data_vistoria':data_vistoria_limpo,
     '#emissao_cartorio':data_emissao_limpo,
     '#948':municipio_agencia,#agencia do municipio
-    '#extensao_mercado':mercado_extenso,
-    '#extensao_liquidacao':liquidacao_extenso,
-    'texto_georeferencimento':fazer_texto_georeferenciamento(),
-    '#texto_tipo_pessoa':resposta_tipo_pessoa,
+    '#1972':mercado_extenso,
+    '1985':liquidacao_extenso,
+    '#juki12':fazer_texto_georeferenciamento(),
+    '#texto_tipo_pessoa':texto_tipo_pessoa(),
     '#texto_hipotecas':hipotecas_reposta(),
     '#7452':reposta_bioma(),#verificando se o imovel ta inserido no bioma mazonioco ou não
     '#486':reposta_cpf_cnpj_proponente,#cpf ou cnpj do proponente
