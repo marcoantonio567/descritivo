@@ -23,13 +23,18 @@ liquidacao_forcada_limpo = formatar_valor(liquidacao_forcada)
 data_atual = gerar_data_atual()
 mercado_extenso = valor_por_extenso(valor_mercado)
 liquidacao_extenso = valor_por_extenso(liquidacao_forcada)
-declividades = selecionar_declividade()
-pedologias = selecionar_pedologia()
-texto_das_desclividades = gerar_texto(declividades)
-texto_das_pedologias = gerar_texto(pedologias)
+declividades = selecionar_declividade()#lista de declividades e suas descrições
+pedologias = selecionar_pedologia()#lista de pedologias e suas descrições
+texto_das_desclividades = gerar_texto(declividades)#aqui vai gerar um texto com todas as declividades separando elas por paaragrafo
+inciais_declividades = extrair_iniciais_desclividades(declividades)#aqui ele vai pegar as inicias das declividades
+texo_mosaico = fazer_Texto_mosaico(inciais_declividades)#aqui ele vai gerar um texto que vai pro mosaico
+titulo_declividades = fazer_titulo_Declividade(inciais_declividades)#aqui ele vai fazer o titulo da declividade
+texto_das_pedologias = gerar_texto(pedologias)#aqui vai gerar um texto com todas as pedologia separando elas por paaragrafo
+nomes_pedologias = extrair_nomes_pedologias(pedologias)#aqui eu ele vai pegar apenas os nomes das pedologias da lista de pedologias selecionadas pelo usuario
+titulo_pedologias = fazer_texto_pedologia(nomes_pedologias)#aqui ele vai fazer o texto do titulo das pedologias
 rota_de_acesso = escolher_e_ler_arquivo_txt()
-print(mercado_extenso)
-print(liquidacao_extenso)
+
+
 
 #tratando se é cpf ou cnpj 
 #propietario

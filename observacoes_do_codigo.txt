@@ -25,3 +25,5 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #1972 = valor de mercado por extenso
 1985 = valor da liquidação forçada por extenso
 #juki12 = texto do georeferenciamento
+#huas123 = texto do titulo das declividades
+#ua5yi1 = texo_mosaico

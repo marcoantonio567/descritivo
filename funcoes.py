@@ -289,16 +289,58 @@ def substituir_cabecalho(texto,entrada,saida):
     doc.save(saida)
 
     print("O cabeçalho da Seção 1 foi modificado com sucesso.")
+def extrair_nomes_pedologias(pedologias):
+    return [nome.split(' (')[0] for nome, descricao in pedologias]
+def fazer_texto_pedologia(lista_pedologias):
+    
+    if not lista_pedologias:
+        raise ValueError("A lista de pedologias está vazia.")
 
+    if len(lista_pedologias) == 1:
+        pedologia = lista_pedologias[0]
+        texto_atualizado = f"O solo predominante no imóvel é o {pedologia}"
+    else:
+        pedologias_formatadas = " e ".join(", ".join(lista_pedologias).rsplit(", ", 1))
+        texto_atualizado = f"Os solos predominantes no imóvel são os {pedologias_formatadas}"
 
+    return texto_atualizado
+def extrair_iniciais_desclividades(data):
 
+    initials = []
+    for item in data:
+        if isinstance(item, tuple) and len(item) > 0:
+            first_element = item[0]
+            if isinstance(first_element, str) and len(first_element) > 0:
+                initials.append(first_element[0])
+    return initials
+def pegar_maximo_2_intes_da_lista(input_list):
+    if len(input_list) > 2:
+        return input_list[:2]
+    return input_list
+def fazer_Texto_mosaico(letras):
+    if len(letras) == 1:
+        texto = f'{letras[0]} – Mosaico com predomínio de {letras[0]}'
+    else:
+        texto = f'{letras[0]}{letras[1]} – Mosaico com predomínio de {letras[0]} sobre {letras[1]}'
+    return texto
+def fazer_titulo_Declividade(lst):
+    # Verifica se a lista é vazia
+    if not lst:
+        return ""
 
+    # Divide a lista em grupos de 2
+    groups = [lst[i:i + 2] for i in range(0, len(lst), 2)]
 
+    # Formata os grupos
+    formatted_groups = []
+    for group in groups:
+        formatted_groups.append("".join(group))
 
-
-
-
-
+    # Junta os grupos com o "e" ao final
+    if len(formatted_groups) > 1:
+        return ", ".join(formatted_groups[:-1]) + " e " + formatted_groups[-1]
+    else:
+        return formatted_groups[0]
 
 
 

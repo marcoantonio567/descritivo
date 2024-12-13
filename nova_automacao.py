@@ -1,6 +1,6 @@
 from funcoes import substituir_palavras_documento , abrir_arquivo_word 
 from tratamento_dados import *
-#from extrair_tabelas import rodar_extracao_tabelas
+
 
 #rodar_extracao_tabelas()#aqui to extraindo todas as tabelas primeiro
 
@@ -42,6 +42,10 @@ dados = {
     '#3498':texto_das_desclividades,
     '#3497':texto_das_pedologias,
     '#5271':registro_imovel(),
+    '#huas123':titulo_pedologias,
+    '#ua5yi1':texo_mosaico,
+    '#g0jd1':titulo_declividades,
+    
     
 }
 saida = 'teste.docx'
