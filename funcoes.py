@@ -9,6 +9,7 @@ import os
 import re
 import tkinter as tk
 from tkinter import messagebox, ttk ,filedialog
+import win32com.client
 
 def formatar_data(data_str):
     data = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S")
@@ -341,6 +342,75 @@ def fazer_titulo_Declividade(lst):
         return ", ".join(formatted_groups[:-1]) + " e " + formatted_groups[-1]
     else:
         return formatted_groups[0]
+def contar_paginas_docx():
+    word = 'teste.docx'
+    nome_arquivo = word
+    # Verifica se o arquivo existe no diretório atual
+    if not os.path.isfile(nome_arquivo):
+        print(f"O arquivo '{nome_arquivo}' não foi encontrado no diretório atual.")
+        return
 
+    try:
+        # Inicializa o Word sem interface visível e sem a interface de COM (que é mais rápida)
+        word = win32com.client.Dispatch("Word.Application")
+        word.Visible = False  # Torna o Word invisível
+        word.DisplayAlerts = 0  # Desabilita alertas que podem desacelerar o processo
+        
+        # Abre o documento sem carregar outros elementos (como fontes, imagens, etc.)
+        documento = word.Documents.Open(os.path.abspath(nome_arquivo), ReadOnly=True)
 
+        # Obtém o número de páginas
+        numero_paginas = documento.ComputeStatistics(2)  # 2 significa wdStatisticPages
+        
+        # Fecha o documento e o Word
+        documento.Close(False)
+        word.Quit()
 
+        # Exibe o número de páginas
+        return str(numero_paginas)
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        return None
+def numero_por_extenso(numero):
+    unidades = [
+        "zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove",
+        "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"
+    ]
+    dezenas = [
+        "", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"
+    ]
+    centenas = [
+        "", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"
+    ]
+
+    if int(numero) < 20:
+        return unidades[int(numero)]
+    elif int(numero) < 100:
+        dezena = int(numero) // 10
+        unidade = int(numero) % 10
+        if unidade == 0:
+            return dezenas[dezena]
+        else:
+            return f"{dezenas[dezena]} e {unidades[unidade]}"
+    elif int(numero) < 1000:
+        centena = int(numero) // 100
+        resto = int(numero) % 100
+        if resto == 0:
+            return centenas[centena]
+        else:
+            return f"{centenas[centena]} e {numero_por_extenso(resto)}"
+    else:
+        return "Número fora do intervalo suportado."    
+def colocar_quantidade_de_paginas_laudo():
+    #tratando aqui as informações a respeito dos numeros de paginas
+    #tem que ser por ultimo porque ele vai contar depois de todas as alterações feita
+    numero_paginas = contar_paginas_docx()#aqui é pra eu saber quantas paginas tem no laudo
+    numero_paginas_extenso = numero_por_extenso(numero_paginas)#aqui é pra transferir esse valor pra extenso
+    dados_quantidade_pagina = {
+        'hd190':numero_paginas,
+        '8dg1':numero_paginas_extenso,
+    }
+    saida = 'teste.docx'
+    substituir_palavras_documento(saida,dados_quantidade_pagina,saida)
+
+print(contar_paginas_docx())

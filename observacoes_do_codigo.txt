@@ -27,3 +27,6 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #juki12 = texto do georeferenciamento
 #huas123 = texto do titulo das declividades
 #ua5yi1 = texo_mosaico
+hd190 = numero_paginas
+8dg1 = numero_paginas_extenso
+    

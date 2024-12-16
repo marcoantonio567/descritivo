@@ -36,6 +36,8 @@ rota_de_acesso = escolher_e_ler_arquivo_txt()
 
 
 
+
+
 #tratando se é cpf ou cnpj 
 #propietario
 if genero == 'empresa' or len(cpf_cpnj_propietario) == 18:
@@ -82,3 +84,6 @@ def hipotecas_reposta():
 #verificação se o imovel esta inserido no bioma amazonico
 def reposta_bioma():
     return texto_bioma(quantidade_matriculas)
+
+
+

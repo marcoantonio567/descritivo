@@ -1,4 +1,4 @@
-from funcoes import substituir_palavras_documento , abrir_arquivo_word 
+from funcoes import substituir_palavras_documento , abrir_arquivo_word , colocar_quantidade_de_paginas_laudo
 from tratamento_dados import *
 
 
@@ -44,10 +44,29 @@ dados = {
     '#5271':registro_imovel(),
     '#huas123':titulo_pedologias,
     '#ua5yi1':texo_mosaico,
-    '#g0jd1':titulo_declividades,
+    'g0jd1':titulo_declividades,
+    
     
     
 }
+
 saida = 'teste.docx'
 substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,saida)
+colocar_quantidade_de_paginas_laudo()
 abrir_arquivo_word(saida)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
