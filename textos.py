@@ -1,11 +1,12 @@
 from leitura_excel import *
 from fazer_capa_excel import contar_dados_vazios, ler_matriculas ,ler_propietarios , ler_casamento
-
+from funcoes import valor_por_extenso , formatar_valor
 
 quantidade_matriculas = 10 - contar_dados_vazios(coluna='G')
 data_imoveis = ler_matriculas(quantidade_matriculas)
 dados_propietarios = ler_propietarios(quantidade_matriculas)
 casamento_propietarios = ler_casamento(quantidade_matriculas)
+apenas_matriculas = [str(dado[0]) for dado in data_imoveis]#aqui e pra ele extrair apenas as matriculas dos imoveis
 def texto_memorial_descritivo(id_fazenda): return f'O imóvel de matrícula {id_fazenda} não possui georreferenciamento averbado em matrícula, sua localização foi obtida através de coordenadas do memorial descritivo'
 def texto_memorial_descritivo_com_car(id_fazenda): return f'O imóvel de matrícula {id_fazenda} não possui georreferenciamento averbado em matrícula, sua localização foi obtida através de coordenadas do memorial descritivo e do Cadastro Ambiental Rural - CAR.'
 def texto_do_gel(id_fazenda): return f'O imóvel de matrícula n° {id_fazenda}  possui georreferenciamento averbado em matrícula, certificado pelo Instituto Nacional de Colonização e Reforma Agrária - INCRA, consoante a certificação nº {gel}. Sua localização foi obtida através do mesmo.'
@@ -87,3 +88,47 @@ texto_sub_bacia = f'O imóvel está contido dentro do Sistema Hidrográfico Baci
 
 #aqui to mostarando qual vai ser o texto do cabeçalho
 texto_cabecalho = f'LAUDO DE AVALIAÇÃO N° {fluid} - {proponente} - {agencia}'
+
+def texto_valor_mercado():
+ 
+    #aqui eu to seprarando as matriculas por "e" ao inves de virgula
+    lista_separada_por_e = " e ".join(apenas_matriculas)
+    
+    #aqui eu to fazendo uma estrutura de condição pra ver qual o texto que vou usar
+    if quantidade_matriculas >1:
+        texto = f'Com base em todo o exposto apresentado, diante da metodologia de trabalho bem como as planilhas de cálculo, apurou-se que o imóvel denominado {nome_imovel}, objeto das matrículas {lista_separada_por_e}, localizados na zona rural do município de {municipio} - {uf}, os seguintes valores:'
+    else:
+        texto = f'Com base em todo o exposto apresentado, diante da metodologia de trabalho bem como as planilhas de cálculo, apurou-se que o imóvel rural denominado {nome_imovel}, localizada no município de {municipio} - {uf}, o seguinte valor:'
+        
+    return texto
+
+def valores_mercado():
+    #textos = 'MATRÍCULA – 1.105 - R$ 4.298.000,00 (Quatro milhões, duzentos e noventa e oito mil reais)'
+    texto_unificado = []
+    for dado in data_imoveis:
+        texto_jogar_dentro = f'MATRÍCULA – {dado[0]} - {formatar_valor(dado[4])} ({valor_por_extenso(formatar_valor(dado[4]))})'
+        texto_unificado.append(texto_jogar_dentro)
+    
+    # Junta todos os textos em um único texto
+    texto_final = "\n".join(texto_unificado)
+
+    return texto_final
+
+def valores_liquidacao_forcada():
+    texto_unificado = []
+    for dado in data_imoveis:
+        texto_jogar_dentro = f'MATRÍCULA – {dado[0]} - {formatar_valor(dado[5])} ({valor_por_extenso(formatar_valor(dado[5]))})'
+        texto_unificado.append(texto_jogar_dentro)
+    
+    # Junta todos os textos em um único texto
+    texto_final = "\n".join(texto_unificado)
+
+    return texto_final
+
+def texto_do_final_da_liquidacao_forcada():
+    if quantidade_matriculas >1:
+        texto = 'os seguintes valores'
+    else:
+        texto = 'o seguinte valor'
+        
+    return texto

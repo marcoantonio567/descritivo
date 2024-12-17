@@ -29,4 +29,5 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 #ua5yi1 = texo_mosaico
 hd190 = numero_paginas
 8dg1 = numero_paginas_extenso
+#dj10f = aqui vai ser o texto do valor de mercado
     

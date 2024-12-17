@@ -45,6 +45,10 @@ dados = {
     '#huas123':titulo_pedologias,
     '#ua5yi1':texo_mosaico,
     'g0jd1':titulo_declividades,
+    '#dj10f':resposta_texto_mercado(),
+    'h8f1a':reposta_valores_de_mercado(),
+    'Gfas8':resposta_valores_liquidacao_forcada(),
+    '#jd01a':resposta_texto_do_final_liquidacao_forcada(),
     
     
     
@@ -54,19 +58,5 @@ saida = 'teste.docx'
 substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,saida)
 colocar_quantidade_de_paginas_laudo()
 abrir_arquivo_word(saida)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

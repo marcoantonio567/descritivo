@@ -412,5 +412,3 @@ def colocar_quantidade_de_paginas_laudo():
     }
     saida = 'teste.docx'
     substituir_palavras_documento(saida,dados_quantidade_pagina,saida)
-
-print(contar_paginas_docx())

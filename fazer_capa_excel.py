@@ -222,9 +222,9 @@ def ler_casamento(quantidade):
         casamentos.append((genero,nome,cpf))
     return casamentos
 
-# fazer_quadro_resumo()>>>>>>>>  ______________________________________________
-# fazer_imovel()>>>>>>>>>>>>>>  |aqui são as funções que fazem a capa do laudo|
-# fazer_valores()>>>>>>>>>>>>   ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+fazer_quadro_resumo()#>>>>>>>>  ______________________________________________
+fazer_imovel()#>>>>>>>>>>>>>>  |aqui são as funções que fazem a capa do laudo|
+fazer_valores()#>>>>>>>>>>>>   ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
 
 workbook.save(arquivo)
 workbook.close()

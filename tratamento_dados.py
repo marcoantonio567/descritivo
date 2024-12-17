@@ -85,5 +85,15 @@ def hipotecas_reposta():
 def reposta_bioma():
     return texto_bioma(quantidade_matriculas)
 
+#aqui eu to fazendo o texto do valor de mercado do item 14
+def resposta_texto_mercado():
+    return texto_valor_mercado()
 
+def reposta_valores_de_mercado():
+    return valores_mercado()
 
+def resposta_valores_liquidacao_forcada():
+    return valores_liquidacao_forcada()
+
+def resposta_texto_do_final_liquidacao_forcada():
+    return texto_do_final_da_liquidacao_forcada()

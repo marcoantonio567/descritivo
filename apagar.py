@@ -1,38 +1,29 @@
-import win32com.client
-import os
+import xlwings as xw
+import pyperclip
 
-def contar_paginas_word():
-    caminho_arquivo = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
-    if not os.path.exists(caminho_arquivo):
-        print("Arquivo não encontrado.")
-        return None
+# Função para copiar dados e formatação de uma planilha para a área de transferência
+def copiar_dados_com_formatacao(caminho_arquivo, nome_planilha, intervalo):
+    # Inicia o Excel
+    app = xw.App(visible=False)  # O Excel não precisa ser visível
+    wb = app.books.open(caminho_arquivo)
     
-    try:
-        # Inicializa o Word
-        word = win32com.client.Dispatch("Word.Application")
-        word.Visible = False
-        word.ScreenUpdating = False  # Evita atualizações de tela
-
-        # Converte o caminho para absoluto
-        caminho_absoluto = os.path.abspath(caminho_arquivo)
-
-        # Abre o documento
-        doc = word.Documents.Open(caminho_absoluto)
-
-        try:
-            # Obtém o número de páginas
-            num_paginas = doc.ComputeStatistics(2)  # 2 = wdStatisticPages
-        finally:
-            # Fecha o documento
-            doc.Close(SaveChanges=False)
-        
-        return num_paginas
-    except Exception as e:
-        print(f"Erro ao processar o documento: {e}")
-        return None
-    finally:
-        # Fecha o Word
-        word.Quit()
+    # Seleciona a planilha
+    sheet = wb.sheets[nome_planilha]
     
+    # Seleciona o intervalo de células
+    intervalo_celulas = sheet.range(intervalo)
+    
+    # Copia o intervalo com formatação
+    intervalo_celulas.api.Copy()  # Usando a API do Excel para copiar com formatação
+    
+    # Fecha o Excel sem salvar alterações
+    wb.close()
+    app.quit()
+    
+    print(f"Dados e formatação da planilha '{nome_planilha}' copiados para a área de transferência!")
 # Exemplo de uso
-print(f"O documento tem {contar_paginas_word()} páginas.")
+caminho_arquivo = 'integracao.xlsx'  # Substitua pelo caminho do seu arquivo Excel
+nome_planilha = 'quadro_resumo'  # Nome da planilha desejada
+intervalo = 'A1:N20'  # Intervalo de células que você quer copiar
+copiar_dados_com_formatacao(caminho_arquivo, nome_planilha, intervalo)
+ 
