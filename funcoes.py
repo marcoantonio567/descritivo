@@ -4,12 +4,16 @@ from docx.shared import Pt
 from docx import Document
 from datetime import datetime
 from num2words import num2words
-import openpyxl
 import os
 import re
 import tkinter as tk
 from tkinter import messagebox, ttk ,filedialog
 import win32com.client
+from openpyxl import load_workbook
+from copy import copy
+from openpyxl.drawing.image import Image
+from PIL import Image as PILImage, ImageOps
+import shutil
 
 def formatar_data(data_str):
     data = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S")
@@ -48,7 +52,7 @@ def ler_celula_excel(celula):
     caminho_arquivo = 'integracao.xlsx'
     nome_planilha = 'dados' 
     # Abre o arquivo Excel com data_only=True para ler o valor das fórmulas
-    workbook = openpyxl.load_workbook(caminho_arquivo, data_only=True)
+    workbook = load_workbook(caminho_arquivo, data_only=True)
     # Seleciona a planilha especificada
     planilha = workbook[nome_planilha]
     # Obtém o valor da célula especificada
@@ -117,7 +121,7 @@ def selecionar_declividade():
     # Função para ler a coluna específica da aba
     def ler_coluna_excel(arquivo, aba_nome, coluna):
         try:
-            workbook = openpyxl.load_workbook(arquivo)
+            workbook = load_workbook(arquivo)
             aba = workbook[aba_nome]
             valores = []
             for linha in aba.iter_rows(min_col=coluna, max_col=coluna + 1, min_row=3,max_row=8, values_only=True):
@@ -194,7 +198,7 @@ def selecionar_pedologia():
     # Função para ler a coluna específica da aba
     def ler_coluna_excel(arquivo, aba_nome, coluna):
         try:
-            workbook = openpyxl.load_workbook(arquivo)
+            workbook = load_workbook(arquivo)
             aba = workbook[aba_nome]
             valores = []
             for linha in aba.iter_rows(min_col=coluna, max_col=coluna + 1, min_row=14,max_row=33, values_only=True):
@@ -412,3 +416,147 @@ def colocar_quantidade_de_paginas_laudo():
     }
     saida = 'teste.docx'
     substituir_palavras_documento(saida,dados_quantidade_pagina,saida)
+def copiar_pagina_excel(destino):
+    origem = "integracao.xlsx"
+    nome_pagina = "quadro_resumo"
+    # Carregar o arquivo de origem
+    wb_origem = load_workbook(origem)
+    if nome_pagina not in wb_origem.sheetnames:
+        raise ValueError(f"A página '{nome_pagina}' não existe no arquivo de origem.")
+
+    # Selecionar a página de origem
+    pagina_origem = wb_origem[nome_pagina]
+
+    # Carregar ou criar o arquivo de destino
+    try:
+        wb_destino = load_workbook(destino)
+    except FileNotFoundError:
+        wb_destino = load_workbook()
+
+    # Criar uma nova página no arquivo de destino com o mesmo nome
+    if nome_pagina in wb_destino.sheetnames:
+        raise ValueError(f"A página '{nome_pagina}' já existe no arquivo de destino.")
+
+    pagina_destino = wb_destino.create_sheet(nome_pagina)
+
+    # Copiar os dados e a formatação célula por célula
+    for linha in pagina_origem.iter_rows():
+        for celula in linha:
+            nova_celula = pagina_destino[celula.coordinate]
+            nova_celula.value = celula.value
+
+            if celula.has_style:
+                nova_celula.font = copy(celula.font)
+                nova_celula.border = copy(celula.border)
+                nova_celula.fill = copy(celula.fill)
+                nova_celula.number_format = celula.number_format
+                nova_celula.protection = copy(celula.protection)
+                nova_celula.alignment = copy(celula.alignment)
+
+    # Ajustar larguras das colunas
+    for col_idx, col_dim in pagina_origem.column_dimensions.items():
+        pagina_destino.column_dimensions[col_idx].width = col_dim.width
+
+    # Ajustar alturas das linhas
+    for row_idx, row_dim in pagina_origem.row_dimensions.items():
+        pagina_destino.row_dimensions[row_idx].height = row_dim.height
+
+    # Copiar as configurações gerais da página
+    pagina_destino.sheet_format = pagina_origem.sheet_format
+    pagina_destino.sheet_properties = pagina_origem.sheet_properties
+    pagina_destino.merged_cells = pagina_origem.merged_cells
+
+    # Salvar o arquivo de destino
+    wb_destino.save(destino)
+    print(f"Página '{nome_pagina}' copiada com sucesso de '{origem}' para '{destino}'.")
+def selecionar_arquivo_excel():
+    """Abre uma janela para o usuário selecionar um arquivo e retorna o caminho do arquivo."""
+    # Cria uma janela oculta
+    root = tk.Tk()
+    root.withdraw()
+
+    # Abre o seletor de arquivos e obtém o caminho do arquivo selecionado
+    caminho_arquivo = filedialog.askopenfilename(
+        title="Selecione o arquivo que voce vai pegar as tabelas por favor",
+        filetypes=[("Planilhas Excel", "*.xlsx"), ("Todos os arquivos", "*.*")]
+    )
+
+    if caminho_arquivo:
+        print(f"Arquivo selecionado: {caminho_arquivo}")
+    else:
+        print("Nenhum arquivo foi selecionado.")
+
+    return caminho_arquivo
+def inserir_layout_geral_na_capa(image_path,cell):
+    file_path = 'integracao.xlsx'
+    width = 585 #aqui e a largura
+    height=400 #aqui é a altura
+    sheet_name = 'quadro_resumo'
+    # Adicionar borda leve à imagem
+    img_with_border_path = "bordered_" + image_path
+    with PILImage.open(image_path) as img:
+        border_size = 2  # Tamanho da borda (ajustável)
+        img_with_border = ImageOps.expand(img, border=border_size, fill="black")
+        img_with_border.save(img_with_border_path)
+
+    # Abrir o arquivo Excel
+    workbook = load_workbook(file_path)
+
+    # Selecionar a página específica
+    if sheet_name not in workbook.sheetnames:
+        raise ValueError(f"A página '{sheet_name}' não existe no arquivo.")
+
+    sheet = workbook[sheet_name]
+
+    # Carregar a imagem com borda
+    img = Image(img_with_border_path)
+
+    # Redimensionar a imagem, se especificado
+    if width and height:
+        img.width = width
+        img.height = height
+
+    # Adicionar a imagem à célula especificada
+    sheet.add_image(img, cell)
+
+    # Salvar as alterações
+    workbook.save(file_path)
+    print(f"Imagem inserida com sucesso na célula {cell} da página '{sheet_name}'.")
+def renovar_a_integração():
+    origem = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\TEMPLATES\\integracao.xlsx'
+    destino = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\'
+    try:
+        # Verifica se o arquivo de origem existe
+        if not os.path.exists(origem):
+            print(f"Arquivo de origem não encontrado: {origem}")
+            return
+
+        # Verifica se o destino é uma pasta
+        if os.path.isdir(destino):
+            destino = os.path.join(destino, os.path.basename(origem))
+
+        # Copia o arquivo
+        shutil.copy2(origem, destino)
+        print(f"Arquivo copiado com sucesso para: {destino}")
+    except Exception as e:
+        print(f"Erro ao copiar o arquivo: {e}")
+def selecionar_imagens_dos_maps():
+    # Cria uma janela oculta do Tkinter
+    root = tk.Tk()
+    root.withdraw()
+
+    # Abre o seletor de arquivos e permite escolher múltiplas imagens
+    caminhos = filedialog.askopenfilenames(
+        title="Selecione os MAPAS",
+        filetypes=[("Imagens PNG", "*.png")]
+    )
+
+    # Retorna os caminhos selecionados como uma lista
+    return list(caminhos)  
+def encontrar_nomes(lista, nomes):
+ 
+    resultados = {}
+    for nome in nomes:
+        resultado = next((item for item in lista if nome.lower() in str(item).lower()), None)
+        resultados[nome] = resultado
+    return resultados

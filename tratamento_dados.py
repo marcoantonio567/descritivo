@@ -1,9 +1,13 @@
 from funcoes import *
 from leitura_excel import *
 from textos import *
+from fazer_capa_excel import numero_Da_celula_preenchimento #aqui quando eu to chamando essas função aqui fazendo a capa do excel
 
+#aqui é pra ele fazer o cabeçalho
 word_filee = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
 substituir_cabecalho(texto_cabecalho,word_filee,word_filee)
+
+
 #tratando as datas
 data_solicitacao_limpo = formatar_data(data_solicitacao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 data_emissao_limpo = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
@@ -97,3 +101,25 @@ def resposta_valores_liquidacao_forcada():
 
 def resposta_texto_do_final_liquidacao_forcada():
     return texto_do_final_da_liquidacao_forcada()
+
+#aqui eu to indo selecionar os mapas da minha aplicação
+lista_de_imagens_mapas = selecionar_imagens_dos_maps()
+#aqui é a lista de mapas  que vai no laudo
+nomes_procurados_mapas = ["layout geral", "PEDOLOGIA", "vegetação", "bacia" ,"declividade"]
+#auqi são os resultados em chaves
+caminhos_dos_mapas = encontrar_nomes(lista_de_imagens_mapas,nomes_procurados_mapas)
+lista_de_caminhos_mapas_limpo = list(caminhos_dos_mapas.values())#aqui eu to transformando as chaves em lista para eu conseguir seleiconar eles
+#aqui abaixo eu to puxando todos os caminhos das imagens
+layout_geral_mapa = lista_de_caminhos_mapas_limpo[0] if len(lista_de_caminhos_mapas_limpo) > 0 else None
+pedologia_mapa = lista_de_caminhos_mapas_limpo[1] if len(lista_de_caminhos_mapas_limpo) > 1 else None
+vegetacao_mapa = lista_de_caminhos_mapas_limpo[2] if len(lista_de_caminhos_mapas_limpo) > 2 else None
+bacia_ou_sub_bacia_mapa = lista_de_caminhos_mapas_limpo[3] if len(lista_de_caminhos_mapas_limpo) > 3 else None
+declividade_mapa = lista_de_caminhos_mapas_limpo[4] if len(lista_de_caminhos_mapas_limpo) > 4 else None
+print(layout_geral_mapa)
+numero_da_utima_celula_preenchida_da_capa = numero_Da_celula_preenchimento()+1
+"""#aqui eu to inserindo  a imagem de layout geral na capa do laudo
+inserir_layout_geral_na_capa(layout_geral_mapa,f'A{str(numero_da_utima_celula_preenchida_da_capa)}')#aqui eu to pulando uma linha apos a ultima celula de preenchimento 
+
+#aqui eu to copiando a tabela que vai na capa para a tabela de estatistica
+destino_excel_estatistica = selecionar_arquivo_excel()
+copiar_pagina_excel(destino_excel_estatistica)"""

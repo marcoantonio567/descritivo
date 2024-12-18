@@ -1,8 +1,28 @@
 from openpyxl import load_workbook
 from openpyxl.styles import Font ,PatternFill , Alignment
 from leitura_excel import agencia , uf , nome_imovel , municipio
-#from tratamento_dados import reposta_cpf_cnpj_proponente
+import shutil
+import os
 
+
+def renovar_a_integração():
+    origem = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\TEMPLATES\\integracao.xlsx'
+    destino = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\'
+    try:
+        # Verifica se o arquivo de origem existe
+        if not os.path.exists(origem):
+            print(f"Arquivo de origem não encontrado: {origem}")
+            return
+
+        # Verifica se o destino é uma pasta
+        if os.path.isdir(destino):
+            destino = os.path.join(destino, os.path.basename(origem))
+
+        # Copia o arquivo
+        shutil.copy2(origem, destino)
+        print(f"Arquivo copiado com sucesso para: {destino}")
+    except Exception as e:
+        print(f"Erro ao copiar o arquivo: {e}")
 
 
 arquivo = 'integracao.xlsx'
@@ -159,7 +179,7 @@ def fazer_imovel():
     mesclar_celulas(numero_ultima_celula,intervalo_titulo,centralizar=True,cor='00B050')
 
 
-    numero_ultima_celula = numero_Da_celula_preenchimento() +1
+    numero_ultima_celula = numero_Da_celula_preenchimento() +23 #aqui e pra ele pular linhas para fazer a proxima coisa
     intervalo_titulo = [('A','N')]
     editar_celula(letra_incio+str(numero_ultima_celula),'IMOVEL')
     mesclar_celulas(numero_ultima_celula,intervalo_titulo,centralizar=True,cor='00B050')

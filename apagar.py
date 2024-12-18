@@ -1,29 +1,34 @@
-import xlwings as xw
-import pyperclip
+import tkinter as tk
+from tkinter import filedialog
 
-# Função para copiar dados e formatação de uma planilha para a área de transferência
-def copiar_dados_com_formatacao(caminho_arquivo, nome_planilha, intervalo):
-    # Inicia o Excel
-    app = xw.App(visible=False)  # O Excel não precisa ser visível
-    wb = app.books.open(caminho_arquivo)
-    
-    # Seleciona a planilha
-    sheet = wb.sheets[nome_planilha]
-    
-    # Seleciona o intervalo de células
-    intervalo_celulas = sheet.range(intervalo)
-    
-    # Copia o intervalo com formatação
-    intervalo_celulas.api.Copy()  # Usando a API do Excel para copiar com formatação
-    
-    # Fecha o Excel sem salvar alterações
-    wb.close()
-    app.quit()
-    
-    print(f"Dados e formatação da planilha '{nome_planilha}' copiados para a área de transferência!")
-# Exemplo de uso
-caminho_arquivo = 'integracao.xlsx'  # Substitua pelo caminho do seu arquivo Excel
-nome_planilha = 'quadro_resumo'  # Nome da planilha desejada
-intervalo = 'A1:N20'  # Intervalo de células que você quer copiar
-copiar_dados_com_formatacao(caminho_arquivo, nome_planilha, intervalo)
+
+def selecionar_imagens_dos_maps():
+    # Cria uma janela oculta do Tkinter
+    root = tk.Tk()
+    root.withdraw()
+
+    # Abre o seletor de arquivos e permite escolher múltiplas imagens
+    caminhos = filedialog.askopenfilenames(
+        title="Selecione os MAPAS",
+        filetypes=[("Imagens PNG", "*.png")]
+    )
+
+    # Retorna os caminhos selecionados como uma lista
+    return list(caminhos)
+
+
+def encontrar_nomes(lista, nomes):
  
+    resultados = {}
+    for nome in nomes:
+        resultado = next((item for item in lista if nome.lower() in str(item).lower()), None)
+        resultados[nome] = resultado
+    return resultados
+
+# Exemplo de uso:
+lista_de_imagens = selecionar_imagens_dos_maps()
+
+nomes_procurados = ["layout geral", "PEDOLOGIA", "vegetação", "bacia" ,"declividade"]
+resultados = encontrar_nomes(lista_de_imagens,nomes_procurados)
+for nome, item_encontrado in resultados.items():
+    print(f'{nome}: {item_encontrado}')
