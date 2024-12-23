@@ -1,4 +1,4 @@
-from funcoes import substituir_palavras_documento , abrir_arquivo_word , colocar_quantidade_de_paginas_laudo
+from funcoes import substituir_palavras_documento , abrir_arquivo_word , colocar_quantidade_de_paginas_laudo ,renovar_a_integração
 from tratamento_dados import *
 
 
@@ -35,7 +35,6 @@ dados = {
     '#texto_tipo_pessoa':texto_tipo_pessoa(),
     '#texto_hipotecas':hipotecas_reposta(),
     '#7452':reposta_bioma(),#verificando se o imovel ta inserido no bioma mazonioco ou não
-    '#486':reposta_cpf_cnpj_proponente,#cpf ou cnpj do proponente
     '#485':reposta_cpf_cnpj_propietario,#cpf ou cnpj do propietario
     '#rota_acess':rota_de_acesso,
     '#texto_bacia':resposta_sistema_hidrografico,

@@ -1,19 +1,20 @@
-from decimal import Decimal, InvalidOperation
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from tkinter import messagebox, ttk ,filedialog
+from decimal import Decimal, InvalidOperation
+from PIL import Image as PILImage, ImageOps
+from openpyxl.drawing.image import Image
+from openpyxl import load_workbook
+from num2words import num2words
+from datetime import datetime
 from docx.shared import Pt
 from docx import Document
-from datetime import datetime
-from num2words import num2words
+import win32com.client
+from copy import copy
+import tkinter as tk
+import shutil
 import os
 import re
-import tkinter as tk
-from tkinter import messagebox, ttk ,filedialog
-import win32com.client
-from openpyxl import load_workbook
-from copy import copy
-from openpyxl.drawing.image import Image
-from PIL import Image as PILImage, ImageOps
-import shutil
+
 
 def formatar_data(data_str):
     data = datetime.strptime(data_str, "%Y-%m-%d %H:%M:%S")
@@ -155,7 +156,7 @@ def selecionar_declividade():
         janela.configure(bg="#e6f7ff")
 
         # Rótulo de instrução
-        rotulo_instrucao = ttk.Label(janela, text="Selecione um ou mais valores da lista abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
+        rotulo_instrucao = ttk.Label(janela, text="Selecione as declividades abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
         rotulo_instrucao.pack(pady=(10, 5))
 
         # Listbox com barra de rolagem
@@ -232,7 +233,7 @@ def selecionar_pedologia():
         janela.configure(bg="#e6f7ff")
 
         # Rótulo de instrução
-        rotulo_instrucao = ttk.Label(janela, text="Selecione um ou mais valores da lista abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
+        rotulo_instrucao = ttk.Label(janela, text="Selecione as pedologias abaixo:", background="#e6f7ff", font=("Helvetica", 12, "bold"))
         rotulo_instrucao.pack(pady=(10, 5))
 
         # Listbox com barra de rolagem
@@ -419,6 +420,7 @@ def colocar_quantidade_de_paginas_laudo():
 def copiar_pagina_excel(destino):
     origem = "integracao.xlsx"
     nome_pagina = "quadro_resumo"
+
     # Carregar o arquivo de origem
     wb_origem = load_workbook(origem)
     if nome_pagina not in wb_origem.sheetnames:
@@ -455,16 +457,24 @@ def copiar_pagina_excel(destino):
 
     # Ajustar larguras das colunas
     for col_idx, col_dim in pagina_origem.column_dimensions.items():
-        pagina_destino.column_dimensions[col_idx].width = col_dim.width
+        pagina_destino.column_dimensions[col_idx].width = 8.43  # Definir largura da coluna
 
     # Ajustar alturas das linhas
-    for row_idx, row_dim in pagina_origem.row_dimensions.items():
-        pagina_destino.row_dimensions[row_idx].height = row_dim.height
+    for row_idx in range(1, pagina_origem.max_row + 1):
+        pagina_destino.row_dimensions[row_idx].height = 15  # Definir altura da linha
 
     # Copiar as configurações gerais da página
     pagina_destino.sheet_format = pagina_origem.sheet_format
     pagina_destino.sheet_properties = pagina_origem.sheet_properties
     pagina_destino.merged_cells = pagina_origem.merged_cells
+
+    # Copiar imagens e manter tamanho e posição
+    if hasattr(pagina_origem, '_images'):  # Verificar se a página contém imagens
+        for img in pagina_origem._images:
+            nova_imagem = Image(img.ref)
+            nova_imagem.width = 585  # Definir a largura para 585
+            nova_imagem.height = 400  # Definir a altura para 400
+            pagina_destino.add_image(nova_imagem, img.anchor)
 
     # Salvar o arquivo de destino
     wb_destino.save(destino)
@@ -487,42 +497,7 @@ def selecionar_arquivo_excel():
         print("Nenhum arquivo foi selecionado.")
 
     return caminho_arquivo
-def inserir_layout_geral_na_capa(image_path,cell):
-    file_path = 'integracao.xlsx'
-    width = 585 #aqui e a largura
-    height=400 #aqui é a altura
-    sheet_name = 'quadro_resumo'
-    # Adicionar borda leve à imagem
-    img_with_border_path = "bordered_" + image_path
-    with PILImage.open(image_path) as img:
-        border_size = 2  # Tamanho da borda (ajustável)
-        img_with_border = ImageOps.expand(img, border=border_size, fill="black")
-        img_with_border.save(img_with_border_path)
-
-    # Abrir o arquivo Excel
-    workbook = load_workbook(file_path)
-
-    # Selecionar a página específica
-    if sheet_name not in workbook.sheetnames:
-        raise ValueError(f"A página '{sheet_name}' não existe no arquivo.")
-
-    sheet = workbook[sheet_name]
-
-    # Carregar a imagem com borda
-    img = Image(img_with_border_path)
-
-    # Redimensionar a imagem, se especificado
-    if width and height:
-        img.width = width
-        img.height = height
-
-    # Adicionar a imagem à célula especificada
-    sheet.add_image(img, cell)
-
-    # Salvar as alterações
-    workbook.save(file_path)
-    print(f"Imagem inserida com sucesso na célula {cell} da página '{sheet_name}'.")
-def renovar_a_integração():
+def renovar_a_integração():#aqui vai ser preciso ser trocado para o pc do user
     origem = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\TEMPLATES\\integracao.xlsx'
     destino = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\'
     try:
@@ -560,3 +535,151 @@ def encontrar_nomes(lista, nomes):
         resultado = next((item for item in lista if nome.lower() in str(item).lower()), None)
         resultados[nome] = resultado
     return resultados
+def inserir_layout_geral_na_capa(image_path, cell):
+    file_path = 'integracao.xlsx'
+    width = 585  # largura da imagem
+    height = 400  # altura da imagem
+    sheet_name = 'quadro_resumo'
+
+    # Criar o caminho para a imagem com borda no mesmo diretório
+    image_dir, image_name = os.path.split(image_path)
+    bordered_image_name = f"bordered_{image_name}"
+    img_with_border_path = os.path.join(image_dir, bordered_image_name)
+
+    # Adicionar borda leve à imagem
+    try:
+        with PILImage.open(image_path) as img:
+            border_size = 2  # Tamanho da borda
+            img_with_border = ImageOps.expand(img, border=border_size, fill="black")
+            img_with_border.save(img_with_border_path)
+    except Exception as e:
+        print(f"Erro ao processar a imagem: {e}")
+        return
+
+    # Abrir o arquivo Excel
+    try:
+        workbook = load_workbook(file_path)
+    except FileNotFoundError:
+        print(f"Arquivo Excel '{file_path}' não encontrado.")
+        return
+    except Exception as e:
+        print(f"Erro ao abrir o arquivo Excel: {e}")
+        return
+
+    # Selecionar a página específica
+    if sheet_name not in workbook.sheetnames:
+        print(f"A página '{sheet_name}' não existe no arquivo.")
+        return
+
+    sheet = workbook[sheet_name]
+
+    # Carregar a imagem com borda
+    try:
+        img = Image(img_with_border_path)
+    except Exception as e:
+        print(f"Erro ao carregar a imagem com borda: {e}")
+        return
+
+    # Redimensionar a imagem
+    img.width = width
+    img.height = height
+
+    # Adicionar a imagem à célula especificada
+    try:
+        sheet.add_image(img, cell)
+    except Exception as e:
+        print(f"Erro ao adicionar a imagem na célula {cell}: {e}")
+        return
+
+    # Salvar as alterações
+    try:
+        workbook.save(file_path)
+        print(f"Imagem inserida com sucesso na célula {cell} da página '{sheet_name}'.")
+    except Exception as e:
+        print(f"Erro ao salvar o arquivo Excel: {e}")
+        return
+
+    # Remover o arquivo temporário da imagem com borda
+    try:
+        os.remove(img_with_border_path)
+        print(f"Imagem temporária '{img_with_border_path}' removida com sucesso.")
+    except Exception as e:
+        print(f"Erro ao remover o arquivo temporário: {e}")
+def imagem_croqui():
+    # Criar janela oculta para usar o seletor de arquivos
+    root = tk.Tk()
+    root.withdraw()  # Ocultar janela principal
+
+    # Abrir seletor de arquivos
+    caminho_arquivo = filedialog.askopenfilename(
+        title="Selecione a imagem do croqui de acesso",
+        filetypes=[("Imagens PNG e JPG", "*.png;*.jpg"), ("Todos os Arquivos", "*.*")]
+    )
+
+    # Retornar o caminho do arquivo selecionado
+    return caminho_arquivo
+def arrumar_cpf_cnpj_proponente(caminho_estatistica):
+    # Caminho para o arquivo Excel
+    file_path = caminho_estatistica
+
+    # Carrega o arquivo Excel
+    workbook = load_workbook(file_path)
+
+    # Seleciona a planilha (troque "Sheet1" pelo nome da sua planilha)
+    sheet = workbook["quadro_resumo"]
+
+    # Coordenada da célula mesclada (exemplo: A1)
+    cell_address = "J2"
+
+    # Verifica se a célula é mesclada
+    for merged_cell in sheet.merged_cells.ranges:
+        if cell_address in merged_cell:
+            # Obtém o valor da célula mesclada
+            cell_value = sheet[cell_address].value
+
+            if cell_value:
+                # Define o novo texto com base no número de caracteres
+                if len(cell_value) == 20:
+                    novo_texto = "CPF"
+                else:
+                    novo_texto = "CNPJ"
+
+                # Substitui apenas o texto específico dentro do valor existente
+                novo_valor = cell_value.replace("#486", novo_texto)
+                sheet[cell_address] = novo_valor
+
+            break
+
+    # Salva as alterações
+    workbook.save(file_path)
+
+    print(f"O texto na célula {cell_address} foi atualizado com sucesso!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

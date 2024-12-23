@@ -1,8 +1,8 @@
-from funcoes import *
+from fazer_capa_excel import celula_para_colar_o_mapa #aqui quando eu to chamando essa variavel ja fazendo a capa do excel
+from colar_imagens import colar_maps_e_croquii
 from leitura_excel import *
+from funcoes import *
 from textos import *
-from fazer_capa_excel import numero_Da_celula_preenchimento #aqui quando eu to chamando essas função aqui fazendo a capa do excel
-
 #aqui é pra ele fazer o cabeçalho
 word_filee = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
 substituir_cabecalho(texto_cabecalho,word_filee,word_filee)
@@ -48,12 +48,6 @@ if genero == 'empresa' or len(cpf_cpnj_propietario) == 18:
     reposta_cpf_cnpj_propietario = "CNPJ"
 else:
     reposta_cpf_cnpj_propietario = "CPF"
-
-#proponente
-if len(cpf_cpnj_proponente) == 14 or len(cpf_cpnj_proponente) == 11:
-    reposta_cpf_cnpj_proponente = "CPF"
-else:
-    reposta_cpf_cnpj_proponente = "CNPJ"
 
 
 #arrumando bacia e sub-bacia
@@ -115,11 +109,23 @@ pedologia_mapa = lista_de_caminhos_mapas_limpo[1] if len(lista_de_caminhos_mapas
 vegetacao_mapa = lista_de_caminhos_mapas_limpo[2] if len(lista_de_caminhos_mapas_limpo) > 2 else None
 bacia_ou_sub_bacia_mapa = lista_de_caminhos_mapas_limpo[3] if len(lista_de_caminhos_mapas_limpo) > 3 else None
 declividade_mapa = lista_de_caminhos_mapas_limpo[4] if len(lista_de_caminhos_mapas_limpo) > 4 else None
-print(layout_geral_mapa)
-numero_da_utima_celula_preenchida_da_capa = numero_Da_celula_preenchimento()+1
-"""#aqui eu to inserindo  a imagem de layout geral na capa do laudo
-inserir_layout_geral_na_capa(layout_geral_mapa,f'A{str(numero_da_utima_celula_preenchida_da_capa)}')#aqui eu to pulando uma linha apos a ultima celula de preenchimento 
+croqui_imagem = imagem_croqui()
+#aqui eu to inserindo  a imagem de layout geral na capa do laudo
+inserir_layout_geral_na_capa(layout_geral_mapa,celula_para_colar_o_mapa)
 
 #aqui eu to copiando a tabela que vai na capa para a tabela de estatistica
 destino_excel_estatistica = selecionar_arquivo_excel()
-copiar_pagina_excel(destino_excel_estatistica)"""
+copiar_pagina_excel(destino_excel_estatistica)
+
+images_with_placeholders = [
+    (pedologia_mapa, "{{h01hf}}"),
+    (bacia_ou_sub_bacia_mapa, "{{h9fd1}}"),
+    (declividade_mapa, "{{g7aa}}"),
+    (croqui_imagem, "{{dh19a}}"),
+]
+
+#Insere as imagens substituindo os marcadores de posição
+colar_maps_e_croquii(word_filee, images_with_placeholders)
+
+#arrumar cpf ou cnpj do proponente
+arrumar_cpf_cnpj_proponente(destino_excel_estatistica)

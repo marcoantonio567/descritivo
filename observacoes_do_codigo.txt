@@ -30,4 +30,7 @@ eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'dat
 hd190 = numero_paginas
 8dg1 = numero_paginas_extenso
 #dj10f = aqui vai ser o texto do valor de mercado
-    
+{{h9fd1}} = mapa de pedologia
+{{g7aa}} = mapa de hidrografia
+{{h01hf}} = mapa de declividade
+{{dh19a}} = imagem do croqui de acesso

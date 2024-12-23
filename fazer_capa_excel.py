@@ -5,25 +5,6 @@ import shutil
 import os
 
 
-def renovar_a_integração():
-    origem = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\TEMPLATES\\integracao.xlsx'
-    destino = r'C:\\Users\\Usuario\\Desktop\\automatizar_descritivo\\'
-    try:
-        # Verifica se o arquivo de origem existe
-        if not os.path.exists(origem):
-            print(f"Arquivo de origem não encontrado: {origem}")
-            return
-
-        # Verifica se o destino é uma pasta
-        if os.path.isdir(destino):
-            destino = os.path.join(destino, os.path.basename(origem))
-
-        # Copia o arquivo
-        shutil.copy2(origem, destino)
-        print(f"Arquivo copiado com sucesso para: {destino}")
-    except Exception as e:
-        print(f"Erro ao copiar o arquivo: {e}")
-
 
 arquivo = 'integracao.xlsx'
 workbook = load_workbook(arquivo,data_only=True)
@@ -241,10 +222,30 @@ def ler_casamento(quantidade):
         cpf = linha[2]
         casamentos.append((genero,nome,cpf))
     return casamentos
+def encontrar_celula_vazia(nome_pagina):
+    try:
+        
+        # Seleciona a página especificada
+        if nome_pagina not in workbook.sheetnames:
+            return f"Página '{nome_pagina}' não encontrada no arquivo."
+
+        pagina = workbook[nome_pagina]
+
+        # Começa a verificar a partir da célula A3
+        linha = 3
+        while True:
+            celula = f"A{linha}"
+            if pagina[celula].value is None:  # Verifica se a célula está vazia
+                return f"A{linha + 2}"
+            linha += 1
+    except Exception as e:
+        return f"Ocorreu um erro: {str(e)}"
+    
 
 fazer_quadro_resumo()#>>>>>>>>  ______________________________________________
 fazer_imovel()#>>>>>>>>>>>>>>  |aqui são as funções que fazem a capa do laudo|
 fazer_valores()#>>>>>>>>>>>>   ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨
+celula_para_colar_o_mapa = encontrar_celula_vazia('quadro_resumo')#aqui ele vai dar as duas linhas a mais que o normal porque preciso de 2 espaçamentos
 
 workbook.save(arquivo)
 workbook.close()
