@@ -56,5 +56,5 @@ dados = {
 saida = 'teste.docx'
 substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,saida)
 colocar_quantidade_de_paginas_laudo()
-renovar_a_integração()#aqui eu to copiando o excel template para a aplicação real
+renovar_a_integração()#aqui eu to copiando o excel template para a aplicação real(deixar inicialmente desabilitado vai depender de quem esta usando)
 abrir_arquivo_word(saida)

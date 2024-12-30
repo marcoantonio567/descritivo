@@ -520,14 +520,30 @@ def selecionar_imagens_retornar_caminho(texto_cabecalho):
     root = tk.Tk()
     root.withdraw()
 
-    # Abre o seletor de arquivos e permite escolher múltiplas imagens
-    caminhos = filedialog.askopenfilenames(
+    # Opção de selecionar arquivos ou uma pasta
+    opcao = filedialog.askopenfilenames(
         title=texto_cabecalho,
-        filetypes=[("Imagens PNG", "*.png")]
+        filetypes=[("Imagens PNG", "*.png"), ("Todos os arquivos", "*.*")]
     )
 
-    # Retorna os caminhos selecionados como uma lista
-    return list(caminhos)  
+    if not opcao:  # Se nada for selecionado
+        return []
+
+    if isinstance(opcao, tuple):  # Se múltiplos arquivos forem selecionados
+        return list(opcao)
+
+    # Verifica se uma pasta foi selecionada
+    if os.path.isdir(opcao):
+        caminhos_imagens = [
+            os.path.join(opcao, arquivo)
+            for arquivo in os.listdir(opcao)
+            if arquivo.lower().endswith('.png')
+        ]
+        return caminhos_imagens
+
+    # Caso contrário, assume que foram selecionados arquivos
+    return list(opcao)
+
 def encontrar_nomes(lista, nomes):
  
     resultados = {}
