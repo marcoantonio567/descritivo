@@ -58,5 +58,3 @@ substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados
 colocar_quantidade_de_paginas_laudo()
 renovar_a_integração()#aqui eu to copiando o excel template para a aplicação real
 abrir_arquivo_word(saida)
-
-

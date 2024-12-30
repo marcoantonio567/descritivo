@@ -1,5 +1,5 @@
 from fazer_capa_excel import celula_para_colar_o_mapa #aqui quando eu to chamando essa variavel ja fazendo a capa do excel
-from colar_imagens import colar_maps_e_croquii
+from colar_imagens import colar_maps_e_croquii , colar_imagens_documentos
 from leitura_excel import *
 from funcoes import *
 from textos import *
@@ -97,7 +97,7 @@ def resposta_texto_do_final_liquidacao_forcada():
     return texto_do_final_da_liquidacao_forcada()
 
 #aqui eu to indo selecionar os mapas da minha aplicação
-lista_de_imagens_mapas = selecionar_imagens_dos_maps()
+lista_de_imagens_mapas = selecionar_imagens_retornar_caminho('Selecione os MAPAS')
 #aqui é a lista de mapas  que vai no laudo
 nomes_procurados_mapas = ["layout geral", "PEDOLOGIA", "vegetação", "bacia" ,"declividade"]
 #auqi são os resultados em chaves
@@ -117,7 +117,7 @@ inserir_layout_geral_na_capa(layout_geral_mapa,celula_para_colar_o_mapa)
 destino_excel_estatistica = selecionar_arquivo_excel()
 copiar_pagina_excel(destino_excel_estatistica)
 
-images_with_placeholders = [
+images_with_placeholders = [#essa variavel aqui contem uma lista com os caminhos dos mapas
     (pedologia_mapa, "{{h01hf}}"),
     (bacia_ou_sub_bacia_mapa, "{{h9fd1}}"),
     (declividade_mapa, "{{g7aa}}"),
@@ -129,3 +129,17 @@ colar_maps_e_croquii(word_filee, images_with_placeholders)
 
 #arrumar cpf ou cnpj do proponente
 arrumar_cpf_cnpj_proponente(destino_excel_estatistica)
+caminho_imagens_cit = selecionar_imagens_retornar_caminho('SELECIONE TODAS AS CIT')
+caminho_imagens_cnd = selecionar_imagens_retornar_caminho('SELECIONE TODAS AS CND')
+caminho_imagens_ccir = selecionar_imagens_retornar_caminho('SELECIONE TODOS OS CCIR')
+caminho_imagens_car = selecionar_imagens_retornar_caminho('SELECIONE TODOS OS CAR')
+images_by_code = { #aqui tem uma lista de com os caminhhos dos documentos
+    "{{sh19}}": caminho_imagens_cit,
+    "{{s9ah1}}": caminho_imagens_cnd,
+    "{{su1h0}}": caminho_imagens_ccir,
+    "{{h9d1a}}": caminho_imagens_car,
+   
+}
+
+# Insere múltiplas imagens por código
+colar_imagens_documentos(word_filee, images_by_code)

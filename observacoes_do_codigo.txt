@@ -34,3 +34,7 @@ hd190 = numero_paginas
 {{g7aa}} = mapa de hidrografia
 {{h01hf}} = mapa de declividade
 {{dh19a}} = imagem do croqui de acesso
+{{sh19}} = caminho_imagens_cit,
+{{s9ah1}} = caminho_imagens_cnd,
+{{su1h0}} = caminho_imagens_ccir,
+{{h9d1a}} = caminho_imagens_car,

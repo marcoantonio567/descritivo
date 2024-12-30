@@ -515,14 +515,14 @@ def renovar_a_integração():#aqui vai ser preciso ser trocado para o pc do user
         print(f"Arquivo copiado com sucesso para: {destino}")
     except Exception as e:
         print(f"Erro ao copiar o arquivo: {e}")
-def selecionar_imagens_dos_maps():
+def selecionar_imagens_retornar_caminho(texto_cabecalho):
     # Cria uma janela oculta do Tkinter
     root = tk.Tk()
     root.withdraw()
 
     # Abre o seletor de arquivos e permite escolher múltiplas imagens
     caminhos = filedialog.askopenfilenames(
-        title="Selecione os MAPAS",
+        title=texto_cabecalho,
         filetypes=[("Imagens PNG", "*.png")]
     )
 
@@ -654,9 +654,6 @@ def arrumar_cpf_cnpj_proponente(caminho_estatistica):
     workbook.save(file_path)
 
     print(f"O texto na célula {cell_address} foi atualizado com sucesso!")
-
-
-
 
 
 
