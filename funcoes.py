@@ -1,5 +1,6 @@
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from tkinter import messagebox, ttk ,filedialog
+from cores import DARK_GREEN , DARK_RED ,RESET
 from decimal import Decimal, InvalidOperation
 from PIL import Image as PILImage, ImageOps
 from openpyxl.drawing.image import Image
@@ -38,7 +39,7 @@ def substituir_palavras_documento(doc_path, substituicoes, output_path):
                                 run.text = run.text.replace(palavra_antiga, palavra_nova)
 
     documento.save(output_path)
-    print(f"Substituição concluída. Documento salvo em {output_path}")
+    print(f"{DARK_GREEN}Substituição concluída. Documento salvo em {output_path}{RESET}")
 def gerar_data_atual():
     meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
              "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
@@ -69,7 +70,7 @@ def abrir_arquivo_word(caminho_arquivo):
         # Abre o arquivo Word no aplicativo padrão do sistema
         os.startfile(caminho_arquivo)
     except Exception as e:
-        print(f"Erro ao abrir o arquivo: {e}")
+        print(f"{DARK_RED}Erro ao abrir o arquivo: {e}{RESET}")
 def valor_por_extenso(valor_str):
     # Remover o 'R$' e os pontos, substituir a vírgula por ponto para converter em float
     valor_numerico = float(re.sub(r'[^0-9,]', '', valor_str).replace(',', '.'))
@@ -116,9 +117,9 @@ def escolher_e_ler_arquivo_txt():
                 
                 return conteudo
         except FileNotFoundError:
-            print("Arquivo não encontrado.")
+            print(f"{DARK_RED}Arquivo não encontrado.{RESET}")
         except Exception as e:
-            print(f"Erro ao ler o arquivo: {e}")
+            print(f"{DARK_RED}Erro ao ler o arquivo: {e}{RESET}")
     else:
         return None
 def selecionar_declividade():
@@ -301,13 +302,13 @@ def substituir_cabecalho(texto,entrada,saida):
     # Salvar o documento modificado
     doc.save(saida)
 
-    print("O cabeçalho da Seção 1 foi modificado com sucesso.")
+    print(f"{DARK_GREEN}O cabeçalho da Seção 1 foi modificado com sucesso.{RESET}")
 def extrair_nomes_pedologias(pedologias):
     return [nome.split(' (')[0] for nome, descricao in pedologias]
 def fazer_texto_pedologia(lista_pedologias):
     
     if not lista_pedologias:
-        raise ValueError("A lista de pedologias está vazia.")
+        raise ValueError(f"{DARK_RED}A lista de pedologias está vazia.{RESET}")
 
     if len(lista_pedologias) == 1:
         pedologia = lista_pedologias[0]
@@ -359,7 +360,7 @@ def contar_paginas_docx():
     nome_arquivo = word
     # Verifica se o arquivo existe no diretório atual
     if not os.path.isfile(nome_arquivo):
-        print(f"O arquivo '{nome_arquivo}' não foi encontrado no diretório atual.")
+        print(f"{DARK_RED}O arquivo '{nome_arquivo}' não foi encontrado no diretório atual.{RESET}")
         return
 
     try:
@@ -381,7 +382,7 @@ def contar_paginas_docx():
         # Exibe o número de páginas
         return str(numero_paginas)
     except Exception as e:
-        print(f"Ocorreu um erro: {e}")
+        print(f"{DARK_RED}Ocorreu um erro: {e}{RESET}")
         return None
 def numero_por_extenso(numero):
     unidades = [
@@ -412,7 +413,7 @@ def numero_por_extenso(numero):
         else:
             return f"{centenas[centena]} e {numero_por_extenso(resto)}"
     else:
-        return "Número fora do intervalo suportado."    
+        return f"{DARK_RED}Número fora do intervalo suportado.{RESET}"    
 def colocar_quantidade_de_paginas_laudo():
     #tratando aqui as informações a respeito dos numeros de paginas
     #tem que ser por ultimo porque ele vai contar depois de todas as alterações feita
@@ -431,7 +432,7 @@ def copiar_pagina_excel(destino):
     # Carregar o arquivo de origem
     wb_origem = load_workbook(origem)
     if nome_pagina not in wb_origem.sheetnames:
-        raise ValueError(f"A página '{nome_pagina}' não existe no arquivo de origem.")
+        raise ValueError(f"{DARK_RED}A página '{nome_pagina}' não existe no arquivo de origem.{RESET}")
 
     # Selecionar a página de origem
     pagina_origem = wb_origem[nome_pagina]
@@ -444,7 +445,7 @@ def copiar_pagina_excel(destino):
 
     # Criar uma nova página no arquivo de destino com o mesmo nome
     if nome_pagina in wb_destino.sheetnames:
-        raise ValueError(f"A página '{nome_pagina}' já existe no arquivo de destino.")
+        raise ValueError(f"{DARK_RED}A página '{nome_pagina}' já existe no arquivo de destino.{RESET}")
 
     pagina_destino = wb_destino.create_sheet(nome_pagina)
 
@@ -485,7 +486,7 @@ def copiar_pagina_excel(destino):
 
     # Salvar o arquivo de destino
     wb_destino.save(destino)
-    print(f"Página '{nome_pagina}' copiada com sucesso de '{origem}' para '{destino}'.")
+    print(f"{DARK_GREEN}Página '{nome_pagina}' copiada com sucesso de '{origem}' para '{destino}'.{RESET}")
 def selecionar_arquivo_excel():
     """Abre uma janela para o usuário selecionar um arquivo e retorna o caminho do arquivo."""
     # Cria uma janela oculta
@@ -499,9 +500,9 @@ def selecionar_arquivo_excel():
     )
 
     if caminho_arquivo:
-        print(f"Arquivo selecionado: {caminho_arquivo}")
+        print(f"{DARK_GREEN}Arquivo selecionado: {caminho_arquivo}{RESET}")
     else:
-        print("Nenhum arquivo foi selecionado.")
+        print(f"{DARK_RED}Nenhum arquivo foi selecionado.{RESET}")
 
     return caminho_arquivo
 def renovar_a_integração():#aqui vai ser preciso ser trocado para o pc do user
@@ -510,7 +511,7 @@ def renovar_a_integração():#aqui vai ser preciso ser trocado para o pc do user
     try:
         # Verifica se o arquivo de origem existe
         if not os.path.exists(origem):
-            print(f"Arquivo de origem não encontrado: {origem}")
+            print(f"{DARK_RED}Arquivo de origem não encontrado: {origem}{RESET}")
             return
 
         # Verifica se o destino é uma pasta
@@ -519,9 +520,9 @@ def renovar_a_integração():#aqui vai ser preciso ser trocado para o pc do user
 
         # Copia o arquivo
         shutil.copy2(origem, destino)
-        print(f"Arquivo copiado com sucesso para: {destino}")
+        print(f"{DARK_GREEN}Arquivo copiado com sucesso para: {destino}{RESET}")
     except Exception as e:
-        print(f"Erro ao copiar o arquivo: {e}")
+        print(f"{DARK_RED}Erro ao copiar o arquivo: {e}{RESET}")
 def selecionar_imagens_retornar_caminho(texto_cabecalho):
     # Cria uma janela oculta do Tkinter
     root = tk.Tk()
@@ -575,22 +576,22 @@ def inserir_layout_geral_na_capa(image_path, cell):
             img_with_border = ImageOps.expand(img, border=border_size, fill="black")
             img_with_border.save(img_with_border_path)
     except Exception as e:
-        print(f"Erro ao processar a imagem: {e}")
+        print(f"{DARK_RED}Erro ao processar a imagem: {e}{RESET}")
         return
 
     # Abrir o arquivo Excel
     try:
         workbook = load_workbook(file_path)
     except FileNotFoundError:
-        print(f"Arquivo Excel '{file_path}' não encontrado.")
+        print(f"{DARK_RED}Arquivo Excel '{file_path}' não encontrado.{RESET}")
         return
     except Exception as e:
-        print(f"Erro ao abrir o arquivo Excel: {e}")
+        print(f"{DARK_RED}Erro ao abrir o arquivo Excel: {e}{RESET}")
         return
 
     # Selecionar a página específica
     if sheet_name not in workbook.sheetnames:
-        print(f"A página '{sheet_name}' não existe no arquivo.")
+        print(f"{DARK_RED}A página '{sheet_name}' não existe no arquivo.{RESET}")
         return
 
     sheet = workbook[sheet_name]
@@ -599,7 +600,7 @@ def inserir_layout_geral_na_capa(image_path, cell):
     try:
         img = Image(img_with_border_path)
     except Exception as e:
-        print(f"Erro ao carregar a imagem com borda: {e}")
+        print(f"{DARK_RED}Erro ao carregar a imagem com borda: {e}{RESET}")
         return
 
     # Redimensionar a imagem
@@ -610,23 +611,23 @@ def inserir_layout_geral_na_capa(image_path, cell):
     try:
         sheet.add_image(img, cell)
     except Exception as e:
-        print(f"Erro ao adicionar a imagem na célula {cell}: {e}")
+        print(f"{DARK_RED}Erro ao adicionar a imagem na célula {cell}: {e}{RESET}")
         return
 
     # Salvar as alterações
     try:
         workbook.save(file_path)
-        print(f"Imagem inserida com sucesso na célula {cell} da página '{sheet_name}'.")
+        print(f"{DARK_GREEN}Imagem inserida com sucesso na célula {cell} da página '{sheet_name}'.{RESET}")
     except Exception as e:
-        print(f"Erro ao salvar o arquivo Excel: {e}")
+        print(f"{DARK_RED}Erro ao salvar o arquivo Excel: {e}{RESET}")
         return
 
     # Remover o arquivo temporário da imagem com borda
     try:
         os.remove(img_with_border_path)
-        print(f"Imagem temporária '{img_with_border_path}' removida com sucesso.")
+        print(f"{DARK_GREEN}Imagem temporária '{img_with_border_path}' removida com sucesso.{RESET}")
     except Exception as e:
-        print(f"Erro ao remover o arquivo temporário: {e}")
+        print(f"{DARK_RED}Erro ao remover o arquivo temporário: {e}{RESET}")
 def imagem_croqui():
     # Criar janela oculta para usar o seletor de arquivos
     root = tk.Tk()
@@ -675,15 +676,15 @@ def arrumar_cpf_cnpj_proponente(caminho_estatistica):
     # Salva as alterações
     workbook.save(file_path)
 
-    print(f"O texto na célula {cell_address} foi atualizado com sucesso!")
+    print(f"{DARK_GREEN}O texto na célula {cell_address} foi atualizado com sucesso!{RESET}")
 def renomear_arquivo_word(caminho_arquivo, novo_nome):
     # Verificar se o arquivo existe
     if not os.path.exists(caminho_arquivo):
-        raise FileNotFoundError(f"O arquivo '{caminho_arquivo}' não foi encontrado.")
+        raise FileNotFoundError(f"{DARK_RED}O arquivo '{caminho_arquivo}' não foi encontrado.{RESET}")
     
     # Verificar se o arquivo tem a extensão .docx
     if not caminho_arquivo.lower().endswith('.docx'):
-        raise ValueError("O arquivo especificado não é um arquivo Word (.docx).")
+        raise ValueError(f"{DARK_RED}O arquivo especificado não é um arquivo Word (.docx).{RESET}")
     
     # Obter o diretório do arquivo original
     diretorio = os.path.dirname(caminho_arquivo)
@@ -737,5 +738,109 @@ def negritar_texto_entre_tags(input_file):
                 
     # Salva o resultado
     doc.save(input_file)
+def enontrar_estatisticas(base_path):
+  
+    def search_in_directory(directory):
+        
+        for root, dirs, files in os.walk(directory):
+            print(f"{DARK_GREEN}[DEBUG] Verificando o diretório: {root}{RESET}")
+            print(f"{DARK_GREEN}[DEBUG] Subdiretórios encontrados: {dirs}{RESET}")
+            for dir_name in dirs:
+                print(f"{DARK_GREEN}[DEBUG] Verificando subdiretório: {dir_name}{RESET}")
+                if 'peças' in dir_name.lower():
+                    # Caminho completo da pasta que contém "peças"
+                    peças_dir = os.path.join(root, dir_name)
+                    print(f"{DARK_GREEN}[DEBUG] Encontrada a pasta 'peças': {peças_dir}{RESET}")
 
+                    # Procura por arquivos Excel na pasta
+                    excel_files = []
+                    for file_name in os.listdir(peças_dir):
+                        print(f"{DARK_GREEN}[DEBUG] Verificando o arquivo: {file_name}{RESET}")
+                        if file_name.endswith(('.xls', '.xlsx')):
+                            file_path = os.path.join(peças_dir, file_name)
+                            print(f"{DARK_GREEN}[DEBUG] Arquivo Excel encontrado: {file_path}{RESET}")
+                            excel_files.append(file_path)
+
+                    return excel_files
+        return []
+
+    # Caminho inicial
+    current_dir = os.path.dirname(os.path.dirname(base_path))
+
+    # Procura no diretório atual e vai subindo até a raiz do sistema
+    while current_dir:
+        print(f"{DARK_GREEN}[DEBUG] Procurando no diretório: {current_dir}{RESET}")
+        excel_files = search_in_directory(current_dir)
+        if excel_files:
+            return excel_files
+
+        # Sobe um nível na hierarquia
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:  # Verifica se atingiu a raiz do sistema
+            break
+        current_dir = parent_dir
+
+    print(f"{DARK_RED}[DEBUG] Nenhuma pasta 'peças' ou arquivo Excel encontrado.{RESET}")
+    return []
+def buscar_valor_excel(caminho_arquivo, pagina, celula):
+    try:
+        print(f"{DARK_GREEN}Abrindo o arquivo Excel...{RESET}")
+        # Abrir o arquivo Excel com data_only ativado para obter apenas os valores
+        workbook = load_workbook(caminho_arquivo, data_only=True)
+        print(f"{DARK_GREEN}Arquivo Excel aberto com sucesso.{RESET}")
+        
+        # Selecionar a planilha
+        if pagina not in workbook.sheetnames:
+            print(f"{DARK_RED}Planilha '{pagina}' não encontrada no arquivo.{RESET}")
+            raise ValueError(f"{DARK_RED}A planilha '{pagina}' não foi encontrada no arquivo Excel.{RESET}")
+        
+        print(f"{DARK_GREEN}Planilha '{pagina}' encontrada. Carregando...{RESET}")
+        planilha = workbook[pagina]
+
+        # Verificar se a célula está em uma região mesclada
+        for merge in planilha.merged_cells.ranges:
+            if celula in merge:
+                print(f"{DARK_GREEN}Célula {celula} está mesclada no intervalo: {merge}. Obtendo valor do topo esquerdo.{RESET}")
+                valor = planilha.cell(merge.min_row, merge.min_col).value
+                break
+        else:
+            valor = planilha[celula].value
+
+        # Tratar possíveis quebras de linha ou texto concatenado
+        if isinstance(valor, str) and '\n' in valor:
+            print(f"{DARK_GREEN}Texto com quebras de linha detectado. Concatenando...{RESET}")
+            valor = valor.replace('\n', ' ').strip()
+
+        print(f"{DARK_GREEN}Valor da célula {celula}: {valor}{RESET}")
+        return valor
+
+    except FileNotFoundError:
+        print(f"{DARK_RED}Erro: Arquivo não encontrado.{RESET}")
+        raise FileNotFoundError(f"{DARK_RED}Arquivo não encontrado. Verifique o caminho fornecido.{RESET}")
+    except Exception as e:
+        print(f"{DARK_RED}Erro ao processar o arquivo Excel: {str(e)}{RESET}")
+        raise RuntimeError(f"{DARK_RED}Erro ao processar o arquivo Excel: {str(e)}{RESET}") 
+def extrair_numeros(texto: str) -> str:
+    # ''.join() concatena todos os caracteres de uma lista/iterável em uma única string
+    # c.isdigit() verifica se o caractere é um dígito (0-9)
+    return ''.join(c for c in texto if c.isdigit())
+def gerar_texto_coeficientes(lista1, lista2):
+    print(f"{DARK_GREEN}Lista1: {lista1}{RESET}")
+    print(f"{DARK_GREEN}Lista2: {lista2}{RESET}")
+
+    if len(lista1) != len(lista2):
+        raise ValueError(f"{DARK_GREEN}As duas listas devem ter o mesmo tamanho.{RESET}")
+
+    resultado = []
+    for valor1, valor2 in zip(lista1, lista2):
+        print(f"{DARK_GREEN}Processando: {valor1}% (Mat. {valor2}){RESET}")
+        resultado.append(f"{valor1}% (Mat. {valor2})")
+
+    if len(resultado) > 1:
+        texto_final = ", ".join(resultado[:-1]) + " é " + resultado[-1]
+    else:
+        texto_final = resultado[0]
+
+    print(f"{DARK_GREEN}Texto final formatado: {texto_final}{RESET}")
+    return texto_final
 

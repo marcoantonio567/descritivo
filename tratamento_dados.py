@@ -17,10 +17,10 @@ data_vistoria_limpo = formatar_data(data_vistoria)#aqui to to tratando a data pr
 
 
 #colocando virgulas nas areas ao inves de pontos
-area_ha = substituir_ponto_por_virgulas(area_ha,casas_decimais=4)
-area_construida = substituir_ponto_por_virgulas(area_construida,casas_decimais=2)
-area1 = substituir_ponto_por_virgulas(area1,casas_decimais=4)
-area2 = substituir_ponto_por_virgulas(area2,casas_decimais=4)
+area_ha_limpo = substituir_ponto_por_virgulas(area_ha,casas_decimais=4)
+area_construida_limpo = substituir_ponto_por_virgulas(area_construida,casas_decimais=2)
+area1_limpo = substituir_ponto_por_virgulas(area1,casas_decimais=4)
+area2_limpo = substituir_ponto_por_virgulas(area2,casas_decimais=4)
 
 #convertendo os valores para moeda
 valor_mercado_limpo = formatar_valor(valor_mercado)
@@ -146,3 +146,17 @@ images_by_code = { #aqui tem uma lista de com os caminhhos dos documentos
 
 # Insere múltiplas imagens por código
 colar_imagens_documentos(word_filee, images_by_code)
+
+#arrumando pra ele pegar o texto coeficiente de variação
+estatisticas_laudos = enontrar_estatisticas(caminho_imagens_cit[0])#aqui é pra ele pegar o primeiro item da kista ja que o caminho é uma lista
+lista_numeros_matriculas = []
+valores_coeficientes = []
+for estatistica in estatisticas_laudos:
+    texto_da_matricula = buscar_valor_excel(estatistica,"SANEAMENTO", "C4")
+    numeros_da_matricula = extrair_numeros(texto_da_matricula)
+    lista_numeros_matriculas.append(numeros_da_matricula)
+    valor_coeficiente = buscar_valor_excel(estatistica,"PLANILHA HOMOG", "Q24")
+    valor_coeficiente_formatado = f"{float(valor_coeficiente):.2f}" #aqui é pra ela formatar o valor do coeficiente no maximo duas casas decimais
+    valores_coeficientes.append(valor_coeficiente_formatado)
+    
+texto_coeficientes = gerar_texto_coeficientes(valores_coeficientes,lista_numeros_matriculas)

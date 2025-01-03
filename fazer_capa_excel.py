@@ -1,3 +1,4 @@
+from cores import DARK_GREEN , DARK_RED , RESET
 from openpyxl import load_workbook
 from openpyxl.styles import Font ,PatternFill , Alignment
 from leitura_excel import agencia , uf , nome_imovel , municipio
@@ -14,7 +15,7 @@ def formatar_para_real(valor):
         valor_formatado = f'R$ {valor:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.')
         return valor_formatado
     except ValueError:
-        return "Valor inválido"
+        return f"{DARK_RED}Valor inválido{RESET}"
 def editar_celula(celula, novo_valor,aba='quadro_resumo'):
     # Carregar o arquivo Excel
     
@@ -28,7 +29,7 @@ def editar_celula(celula, novo_valor,aba='quadro_resumo'):
     custom_font = Font(name='Century Gothic', size=12, bold=True)
     sheet[celula].font = custom_font
     
-    print(f"Célula {celula} editada com sucesso!")
+    print(f"{DARK_GREEN}Célula {celula} editada com sucesso!{RESET}")
 def contar_dados_vazios(aba='propietarios',coluna='C'):
     # Selecione a aba ativa ou a aba de interesse
     sheet = workbook[aba]
@@ -227,7 +228,7 @@ def encontrar_celula_vazia(nome_pagina):
         
         # Seleciona a página especificada
         if nome_pagina not in workbook.sheetnames:
-            return f"Página '{nome_pagina}' não encontrada no arquivo."
+            return f"{DARK_RED}Página '{nome_pagina}' não encontrada no arquivo.{RESET}"
 
         pagina = workbook[nome_pagina]
 
@@ -239,7 +240,7 @@ def encontrar_celula_vazia(nome_pagina):
                 return f"A{linha + 2}"
             linha += 1
     except Exception as e:
-        return f"Ocorreu um erro: {str(e)}"
+        return f"{DARK_RED}Ocorreu um erro: {str(e)}{RESET}"
     
 
 fazer_quadro_resumo()#>>>>>>>>  ______________________________________________

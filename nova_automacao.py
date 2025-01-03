@@ -3,9 +3,6 @@ from funcoes import (substituir_palavras_documento , abrir_arquivo_word ,
                      renomear_arquivo_word,negritar_texto_entre_tags)
 from tratamento_dados import *
 
-
-#rodar_extracao_tabelas()#aqui to extraindo todas as tabelas primeiro
-
 dados = {
     '#proponente':proponente,
     '#propietario':propietario,
@@ -17,14 +14,14 @@ dados = {
     '#uf':uf,
     '#matricula':matricula,
     '#identificacao':identificacao,
-    '#area_ha':area_ha,
-    '#area_contruida':area_construida,
+    '#area_ha':area_ha_limpo,
+    '#area_contruida':area_construida_limpo,
     '#MERCADO':valor_mercado_limpo,
     '#LIQUIDACAO':liquidacao_forcada_limpo,
     '#gel':gel,
     '#CAR':car,
-    '#area1':area1,
-    '#area2':area2,
+    '#area1':area1_limpo,
+    '#area2':area2_limpo,
     '#fluid':fluid,
     '#data_atual':data_atual,
     '#data_solicitacao':data_solicitacao_limpo,
@@ -50,6 +47,7 @@ dados = {
     'h8f1a':reposta_valores_de_mercado(),
     'Gfas8':resposta_valores_liquidacao_forcada(),
     '#jd01a':resposta_texto_do_final_liquidacao_forcada(),
+    '9ashd':texto_coeficientes,
     
     
     
