@@ -1,4 +1,6 @@
-from funcoes import substituir_palavras_documento , abrir_arquivo_word , colocar_quantidade_de_paginas_laudo ,renovar_a_integração
+from funcoes import (substituir_palavras_documento , abrir_arquivo_word , 
+                     colocar_quantidade_de_paginas_laudo ,renovar_a_integração , 
+                     renomear_arquivo_word,negritar_texto_entre_tags)
 from tratamento_dados import *
 
 
@@ -53,8 +55,10 @@ dados = {
     
 }
 
-saida = 'teste.docx'
-substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,saida)
+caminho_antigo = f'teste.docx'
+substituir_palavras_documento('LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx',dados,caminho_antigo)
 colocar_quantidade_de_paginas_laudo()
 renovar_a_integração()#aqui eu to copiando o excel template para a aplicação real(deixar inicialmente desabilitado vai depender de quem esta usando)
-abrir_arquivo_word(saida)
+caminho_novo = renomear_arquivo_word(caminho_antigo,texto_nome_arquivo)#tive que criar uma variavel porque como o final é um nome dinamico a respeito da quantidade e do contador de paginas ele so renomeia o arquivo depois fica mais facil doque reconstruir a função
+negritar_texto_entre_tags(caminho_novo)
+abrir_arquivo_word(caminho_novo)

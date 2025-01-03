@@ -3,6 +3,8 @@ from colar_imagens import colar_maps_e_croquii , colar_imagens_documentos
 from leitura_excel import *
 from funcoes import *
 from textos import *
+
+
 #aqui é pra ele fazer o cabeçalho
 word_filee = 'LAUDO DE AVALIAÇÃO PARA AUTOMAÇÃO.docx'
 substituir_cabecalho(texto_cabecalho,word_filee,word_filee)
@@ -13,11 +15,12 @@ data_solicitacao_limpo = formatar_data(data_solicitacao)#aqui to to tratando a d
 data_emissao_limpo = formatar_data(data_emissao)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 data_vistoria_limpo = formatar_data(data_vistoria)#aqui to to tratando a data pra ela ficar assim : 00/00/0000
 
+
 #colocando virgulas nas areas ao inves de pontos
-area_ha = substituir_ponto_por_virgulas(area_ha)
-area_construida = substituir_ponto_por_virgulas(area_construida)
-area1 = substituir_ponto_por_virgulas(area1)
-area2 = substituir_ponto_por_virgulas(area2)
+area_ha = substituir_ponto_por_virgulas(area_ha,casas_decimais=4)
+area_construida = substituir_ponto_por_virgulas(area_construida,casas_decimais=2)
+area1 = substituir_ponto_por_virgulas(area1,casas_decimais=4)
+area2 = substituir_ponto_por_virgulas(area2,casas_decimais=4)
 
 #convertendo os valores para moeda
 valor_mercado_limpo = formatar_valor(valor_mercado)
@@ -60,7 +63,7 @@ else:
 def fazer_texto_georeferenciamento():
     resposta_gel_referenciamento = []
     for item in data_imoveis:
-        if georeferenciamento == 'GEL':
+        if georeferenciamento == 'GEO':
             resposta_gel_referenciamento.append(texto_do_gel(str(item[0])))
         elif georeferenciamento == 'CAR':
             resposta_gel_referenciamento.append(texto_car(str(item[0])))

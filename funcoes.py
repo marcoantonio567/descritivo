@@ -89,8 +89,15 @@ def valor_por_extenso(valor_str):
         valor_extenso = f"{extenso_inteira} reais"
 
     return valor_extenso
-def substituir_ponto_por_virgulas(varivel):
-    return varivel.replace(".",",")
+def substituir_ponto_por_virgulas(varivel,casas_decimais):
+    
+    # Formata o valor com a quantidade desejada de casas decimais
+    formatted_value = f"{varivel:.{casas_decimais}f}"
+    
+    # Substitui pontos por vírgulas
+    formatted_value = formatted_value.replace('.', ',')
+
+    return formatted_value
 def escolher_e_ler_arquivo_txt():
     # Cria uma interface gráfica oculta apenas para usar o filedialog
     root = tk.Tk()
@@ -271,7 +278,7 @@ def selecionar_pedologia():
 def gerar_texto(lista_tuplas):
     texto = ""
     for item in lista_tuplas:
-        paragrafo = f"\t{item[0]} {item[1]}\n"
+        paragrafo = f"\t<tag>{item[0]}:</tag> {item[1]}\n"
         texto += paragrafo
     return texto
 def substituir_cabecalho(texto,entrada,saida):
@@ -304,10 +311,10 @@ def fazer_texto_pedologia(lista_pedologias):
 
     if len(lista_pedologias) == 1:
         pedologia = lista_pedologias[0]
-        texto_atualizado = f"O solo predominante no imóvel é o {pedologia}"
+        texto_atualizado = f"o solo predominante no imóvel é o <tag>{pedologia}</tag>"
     else:
         pedologias_formatadas = " e ".join(", ".join(lista_pedologias).rsplit(", ", 1))
-        texto_atualizado = f"Os solos predominantes no imóvel são os {pedologias_formatadas}"
+        texto_atualizado = f"os solos predominantes no imóvel são os <tag>{pedologias_formatadas}</tag>"
 
     return texto_atualizado
 def extrair_iniciais_desclividades(data):
@@ -325,9 +332,9 @@ def pegar_maximo_2_intes_da_lista(input_list):
     return input_list
 def fazer_Texto_mosaico(letras):
     if len(letras) == 1:
-        texto = f'{letras[0]} – Mosaico com predomínio de {letras[0]}'
+        texto = f'<tag>{letras[0]}</tag> – Mosaico com predomínio de <tag>{letras[0]}</tag>'
     else:
-        texto = f'{letras[0]}{letras[1]} – Mosaico com predomínio de {letras[0]} sobre {letras[1]}'
+        texto = f'<tag>{letras[0]}{letras[1]}</tag> – Mosaico com predomínio de <tag>{letras[0]} sobre {letras[1]}</tag>'
     return texto
 def fazer_titulo_Declividade(lst):
     # Verifica se a lista é vazia
@@ -543,7 +550,6 @@ def selecionar_imagens_retornar_caminho(texto_cabecalho):
 
     # Caso contrário, assume que foram selecionados arquivos
     return list(opcao)
-
 def encontrar_nomes(lista, nomes):
  
     resultados = {}
@@ -670,29 +676,66 @@ def arrumar_cpf_cnpj_proponente(caminho_estatistica):
     workbook.save(file_path)
 
     print(f"O texto na célula {cell_address} foi atualizado com sucesso!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def renomear_arquivo_word(caminho_arquivo, novo_nome):
+    # Verificar se o arquivo existe
+    if not os.path.exists(caminho_arquivo):
+        raise FileNotFoundError(f"O arquivo '{caminho_arquivo}' não foi encontrado.")
+    
+    # Verificar se o arquivo tem a extensão .docx
+    if not caminho_arquivo.lower().endswith('.docx'):
+        raise ValueError("O arquivo especificado não é um arquivo Word (.docx).")
+    
+    # Obter o diretório do arquivo original
+    diretorio = os.path.dirname(caminho_arquivo)
+    
+    # Garantir que o novo nome também tenha a extensão .docx
+    if not novo_nome.lower().endswith('.docx'):
+        novo_nome += '.docx'
+    
+    # Criar o caminho completo para o novo arquivo
+    novo_caminho = os.path.join(diretorio, novo_nome)
+    
+    # Renomear o arquivo
+    os.rename(caminho_arquivo, novo_caminho)
+    
+    return novo_caminho
+def negritar_texto_entre_tags(input_file):
+    
+    # Carrega o documento
+    doc = Document(input_file)
+    
+    # Regex para capturar o que está entre <tag> e </tag>
+    pattern = re.compile(r'(<tag>.*?</tag>)')
+    
+    for paragraph in doc.paragraphs:
+        original_text = paragraph.text
+        
+        # Se não existir <tag>...</tag> no parágrafo, pula
+        if '<tag>' not in original_text:
+            continue
+        
+        # Divide o texto do parágrafo em pedaços: 
+        #  - pedaços fora das tags
+        #  - pedaços que correspondem ao padrão (<tag>...</tag>)
+        splitted = re.split(pattern, original_text)
+        
+        # Limpa o texto do parágrafo para construí-lo do zero
+        paragraph.text = ''
+        
+        for parte in splitted:
+            # Verifica se a parte corresponde ao padrão <tag>...</tag>
+            if pattern.match(parte):
+                # Extrai só o conteúdo entre <tag> e </tag>, sem as próprias tags
+                conteudo_sem_tags = re.sub(r'</?tag>', '', parte)
+                
+                # Cria uma Run em negrito
+                run = paragraph.add_run(conteudo_sem_tags)
+                run.bold = True
+            else:
+                # Conteúdo que está fora das tags permanece normal
+                paragraph.add_run(parte)
+                
+    # Salva o resultado
+    doc.save(input_file)
 
 

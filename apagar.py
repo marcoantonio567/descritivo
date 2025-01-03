@@ -1,54 +1,42 @@
-import keyboard
-import openpyxl
-import pyautogui
-import time
-import pyperclip
+import re
+from docx import Document
 
-def limpar_area_de_transferencia():
-    try:
-        pyperclip.copy("")  # Copia uma string vazia para a área de transferência
-        print("A área de transferência foi limpa.")
-    except Exception as e:
-        print(f"Erro ao limpar a área de transferência: {e}")
-def verificar_area_de_transferencia():
-    try:
-        conteudo = pyperclip.paste()
-        if conteudo:
-            return conteudo
-        else:
-            print("A área de transferência está vazia.")
-    except Exception as e:
-        print(f"Erro ao acessar a área de transferência: {e}")
-def verificar_hifen(texto):
-    if "-" in texto:
-        return 'sim'
-    else:
-        print("O texto não contém um '-' (hífen).")
+def negritar_texto_entre_tags(input_file):
     
-pyautogui.alert("selecione")
-time.sleep(1)
-for i in range(50):
-    pyautogui.hotkey('ctrl','x')
-    texto_negativo_positivo = verificar_area_de_transferencia()
-    if verificar_hifen(texto_negativo_positivo) == 'sim':
-        for i in range(3):
-            pyautogui.press('right')
-            time.sleep(0.1)
-        pyautogui.hotkey('ctrl','v')
-        time.sleep(0.1)
-        pyautogui.press("down")
-        for i in range(3):
-            pyautogui.press('left')
-            time.sleep(0.1)
-        limpar_area_de_transferencia()
-    else:
-        for i in range(2):
-            pyautogui.press('right')
-            time.sleep(0.1)
-        pyautogui.hotkey('ctrl','v')
-        time.sleep(0.1)
-        pyautogui.press("down")
-        for i in range(2):
-            pyautogui.press('left')
-            time.sleep(0.1)
-        limpar_area_de_transferencia()
+    # Carrega o documento
+    doc = Document(input_file)
+    
+    # Regex para capturar o que está entre <tag> e </tag>
+    pattern = re.compile(r'(<tag>.*?</tag>)')
+    
+    for paragraph in doc.paragraphs:
+        original_text = paragraph.text
+        
+        # Se não existir <tag>...</tag> no parágrafo, pula
+        if '<tag>' not in original_text:
+            continue
+        
+        # Divide o texto do parágrafo em pedaços: 
+        #  - pedaços fora das tags
+        #  - pedaços que correspondem ao padrão (<tag>...</tag>)
+        splitted = re.split(pattern, original_text)
+        
+        # Limpa o texto do parágrafo para construí-lo do zero
+        paragraph.text = ''
+        
+        for parte in splitted:
+            # Verifica se a parte corresponde ao padrão <tag>...</tag>
+            if pattern.match(parte):
+                # Extrai só o conteúdo entre <tag> e </tag>, sem as próprias tags
+                conteudo_sem_tags = re.sub(r'</?tag>', '', parte)
+                
+                # Cria uma Run em negrito
+                run = paragraph.add_run(conteudo_sem_tags)
+                run.bold = True
+            else:
+                # Conteúdo que está fora das tags permanece normal
+                paragraph.add_run(parte)
+                
+    # Salva o resultado
+    doc.save(input_file)
+
