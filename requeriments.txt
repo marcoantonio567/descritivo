@@ -1,0 +1,8 @@
+python-docx
+Pillow
+docx
+openpyxl
+num2words
+pywin32
+pyautogui
+keyboard
