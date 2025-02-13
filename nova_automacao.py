@@ -7,7 +7,7 @@ dados = {
     '#proponente':proponente,
     '#propietario':propietario,
     '#agencia':agencia,
-    '#nome_imovel':nome_imovel,
+    '#nome_imovel':lista_nomes_imoveis_separados_por_e,
     '#municipio':municipios[0],
     '#cpf_proponente':cpf_cpnj_proponente,
     '#cpf_propietario':cpf_cpnj_propietario,
@@ -50,7 +50,7 @@ dados = {
     'jsad0':declividade_vegetação,
     'as8ghd9a':nomes_imoveis_formatado,
     'As0k':resposta_texto_data_emissao(),
-    'biasd91':respota_da_ia.replace('*',''),
+    'biasd91':respota_da_ia().replace('*',''),
     
     
     

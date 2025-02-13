@@ -174,6 +174,10 @@ delete_last_page(word_filee)#aqui vou apagar a ultima pagina porque como ele que
 estatisticas_laudos = enontrar_estatisticas(caminho_imagens_cit[0])#aqui é pra ele pegar o primeiro item da kista ja que o caminho é uma lista
 lista_numeros_matriculas = []
 valores_coeficientes = []
+municipios = []
+estado_uf = []
+valores_mercado_automaticos = [] # oque eu to fazendo aqui é colocando o valor de mercado para se puxar de forma automatica em cada estatistica
+valores_liquidacao_automaticos = [] # oque eu to fazendo aqui é colocando o valor de liquidacao para se puxar de forma automatica em cada estatistica
 for estatistica in estatisticas_laudos:
     texto_da_matricula = buscar_valor_excel(estatistica,"SANEAMENTO", "C4")
     numeros_da_matricula = extrair_numeros(texto_da_matricula)
@@ -186,25 +190,11 @@ for estatistica in estatisticas_laudos:
         valor_coeficiente_formatado = 'nofind'
     valores_coeficientes.append(valor_coeficiente_formatado)
     
-texto_coeficientes = gerar_texto_coeficientes(valores_coeficientes,lista_numeros_matriculas)
-
-
-#aqui eu to extraindo todos os municipios e todos os estados dos imoveis
-municipios = []
-estado_uf = []
-for estatistica in estatisticas_laudos:
     cidade_estado_junto = buscar_valor_excel(estatistica,"AMOSTRAS","E5")
     municipio , uf = extrair_cidade_uf(cidade_estado_junto)
     municipios.append(municipio)
     estado_uf.append(uf)
 
-
-
-
-valores_mercado_automaticos = [] # oque eu to fazendo aqui é colocando o valor de mercado para se puxar de forma automatica em cada estatistica
-valores_liquidacao_automaticos = [] # oque eu to fazendo aqui é colocando o valor de liquidacao para se puxar de forma automatica em cada estatistica
-for estatistica in estatisticas_laudos:
-    #sainda : float
     valor_mercado_automatico = buscar_valor_excel(estatistica,'SANEAMENTO','F20')
     valor_mercado_automatico_limpo = formatar_valor(valor_mercado_automatico)
     valor_mercado_arredondado = ajustar_milhar(valor_mercado_automatico_limpo)
@@ -215,7 +205,8 @@ for estatistica in estatisticas_laudos:
     valor_liquidacao_automatico_limpo = formatar_valor(valor_liquidacao_automatico)
     valor_liquidacao_arredondado = ajustar_milhar(valor_liquidacao_automatico_limpo)
     valores_liquidacao_automaticos.append(valor_liquidacao_arredondado)
-    
+
+texto_coeficientes = gerar_texto_coeficientes(valores_coeficientes,lista_numeros_matriculas)
 
 #aqui a baixo eu to redefinindo os itens 4 e 5 da minha lista de imoveis
 data_imoveis = substituir_indices_4_e_5(data_imoveis,valores_mercado_automaticos,valores_liquidacao_automaticos)
@@ -237,7 +228,8 @@ def resposta_texto_mercado():
 def resposta_texto_data_emissao():
     return texto_data_emissao()
 
-# Exemplo de uso com limite de 50 tokens   
-pergunta_pra_ia = f'me fale sobre o solo/clima/vegetação/historia da cidade palmas - TO'
-respota_da_ia = perguntar_groq(pergunta_pra_ia)
-print(respota_da_ia)
+def respota_da_ia():
+    pergunta_pra_ia = f'me fale sobre o solo/clima/vegetação/historia da cidade {municipios[0]} - {estado_uf[0]}'
+    respostaa_Da_pergunta = perguntar_groq(pergunta_pra_ia)
+    print(respostaa_Da_pergunta)
+    return respostaa_Da_pergunta

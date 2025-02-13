@@ -28,4 +28,3 @@ def perguntar_groq(pergunta):
     else:
         return f"Erro: {response.status_code} - {response.text}"
 
-# Exemplo de uso com limite de 50 tokens   
