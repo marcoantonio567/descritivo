@@ -1,12 +1,14 @@
-#api = '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'
+import os
+from dotenv import load_dotenv
 import requests
 
-
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
 
 # Função para perguntar algo à API da Groq
 def perguntar_groq(pergunta):
     # Configuração da API
-    API_KEY = "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"  # Substitua pela sua chave real
+    API_KEY = os.getenv("GROQ_API_KEY")  # Lê a chave da variável de ambiente
     API_URL = "https://api.groq.com/openai/v1/chat/completions"  # URL correta
 
     headers = {
@@ -27,4 +29,5 @@ def perguntar_groq(pergunta):
         return resposta["choices"][0]["message"]["content"]
     else:
         return f"Erro: {response.status_code} - {response.text}"
+    
 

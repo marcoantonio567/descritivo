@@ -21,3 +21,4 @@ hd190 = numero_paginas
 0jasa = paginas enumeradas no laudo
 g0jd1 = introdução do texto das declividades
 as8ghd9a = lista de nomes dos imveis
+biasd91 = resposta da ia para as descrições do municipio
