@@ -3,7 +3,7 @@ from leitura_excel import *
 from funcoes import *
 from textos import *
 from cores import *
-from Ia import perguntar_groq
+from Ia import perguntar_groq_geografia
 
 #aqui é pra ele fazer o cabeçalho
 word_filee = 'teste.docx'
@@ -230,6 +230,9 @@ def resposta_texto_data_emissao():
 
 def respota_da_ia():
     pergunta_pra_ia = f'me fale sobre o solo/clima/vegetação/historia da cidade {municipios[0]} - {estado_uf[0]}'
-    respostaa_Da_pergunta = perguntar_groq(pergunta_pra_ia)
+    respostaa_Da_pergunta = perguntar_groq_geografia(pergunta_pra_ia)
     print(respostaa_Da_pergunta)
     return respostaa_Da_pergunta
+
+def resposta_texto_descrição_imovel_avaliando():
+    return texto_descrição_imovel_avaliando(municipios)

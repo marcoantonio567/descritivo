@@ -185,3 +185,10 @@ def texto_data_emissao():
     else:
         texto_definitivo = fazer_Texto_atraves_De_lista(texto_atualizado)
         return texto_definitivo	
+    
+def texto_descrição_imovel_avaliando(lista_municipios):
+    if len(lista_matriculas_separadas_por_e) >1:
+        #lista_matriculas_separadas_por_e
+        return f'As matrículas {lista_matriculas_separadas_por_e}, localizadas no município de {lista_municipios[0]}, compõe {lista_nomes_imoveis_separados_por_e}, voltada para atividade pecuária. Uma descrição mais detalhada das matrículas pode ser conferida nos quadros a seguir:'
+    else:
+        return f'A matrícula {lista_matriculas_separadas_por_e}, localizada no município de {lista_municipios[0]}, compõe {lista_nomes_imoveis_separados_por_e}, voltada para atividade pecuária. Uma descrição mais detalhada das matrícula pode ser conferida no quadro a seguir:'

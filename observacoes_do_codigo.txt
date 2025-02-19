@@ -22,3 +22,4 @@ hd190 = numero_paginas
 g0jd1 = introdução do texto das declividades
 as8ghd9a = lista de nomes dos imveis
 biasd91 = resposta da ia para as descrições do municipio
+#8g7a8 = descrição do imovel avaliando

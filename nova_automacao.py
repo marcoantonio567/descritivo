@@ -51,6 +51,7 @@ dados = {
     'as8ghd9a':nomes_imoveis_formatado,
     'As0k':resposta_texto_data_emissao(),
     'biasd91':respota_da_ia().replace('*',''),
+    '#8g7a8':resposta_texto_descrição_imovel_avaliando(),
     
     
     
