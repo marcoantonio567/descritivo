@@ -206,20 +206,22 @@ for estatistica in estatisticas_laudos:
     valor_liquidacao_arredondado = ajustar_milhar(valor_liquidacao_automatico_limpo)
     valores_liquidacao_automaticos.append(valor_liquidacao_arredondado)
 
+print(f'{DARK_RED}{valores_mercado_automaticos}{RESET}')
+print(f'{DARK_RED}{valores_liquidacao_automaticos}{RESET}')
 texto_coeficientes = gerar_texto_coeficientes(valores_coeficientes,lista_numeros_matriculas)
 
 #aqui a baixo eu to redefinindo os itens 4 e 5 da minha lista de imoveis
-data_imoveis = substituir_indices_4_e_5(data_imoveis,valores_mercado_automaticos,valores_liquidacao_automaticos)
+data_imoveis_atual = substituir_indices_4_e_5(data_imoveis,valores_mercado_automaticos,valores_liquidacao_automaticos)
+print(f'{DARK_RED}{data_imoveis_atual}{RESET}')
 
 #convertendo os valores para moeda
 valor_mercado_limpo = valores_mercado_automaticos[0]
 liquidacao_forcada_limpo = valores_liquidacao_automaticos[0]
-
 def reposta_valores_de_mercado():
-    return valores_mercado(data_imoveis)
+    return valores_mercado(data_imoveis_atual)
 
 def resposta_valores_liquidacao_forcada():
-    return valores_liquidacao_forcada(data_imoveis)
+    return valores_liquidacao_forcada(data_imoveis_atual)
 
 #aqui eu to fazendo o texto do valor de mercado do item 14
 def resposta_texto_mercado():

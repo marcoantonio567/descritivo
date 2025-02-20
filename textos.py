@@ -6,6 +6,7 @@ from cores import *
 quantidade_matriculas = 10 - contar_dados_vazios(coluna='G')
 quantidade_propietarios = 10 - contar_dados_vazios()
 data_imoveis = ler_matriculas(quantidade_matriculas)#dados dos imoveis SAIDA: matricula,identificacao,area_ha,area_contruida,valor_mercado,liquidacao_forcada
+print(f'{DARK_RED}{data_imoveis}{RESET}')
 dados_propietarios = ler_propietarios(quantidade_propietarios)
 casamento_propietarios = ler_casamento(quantidade_propietarios)
 apenas_matriculas = [str(dado[0]) for dado in data_imoveis]#aqui e pra ele extrair apenas as matriculas dos imoveis
