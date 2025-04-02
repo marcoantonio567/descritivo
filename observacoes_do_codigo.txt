@@ -1,0 +1,25 @@
+quando voce coloca a função ler_cedula_Excel() para ler uma celula em branco , ela vai retorne 'None' em uma string e não como um tipo de variavel
+eu não sei exatamente porque isso acontece mas acredito que seja o paratro 'data_only' que passamos quando chamamos a função 'load_workbook' para ler a planilha
+
+#948 = agencia do municipio
+#7452 = texto que veirifica se o bioma ta inserido ou não no bioma
+#485 = aqui vai ser cpf ou cnpj
+#486 = aqui vai ser cpf ou cnpj
+#3498 = texto das declividades
+#3497 = texto das pedologias
+#5271 = texto em qual car o imovel esta registrado
+#juki12 = texto do georeferenciamento
+#huas123 = texto do titulo das pedologias
+#ua5yi1 = texo_mosaico
+hd190 = numero_paginas
+#dj10f = aqui vai ser o texto do valor de mercado
+{{h9fd1}} = mapa de pedologia
+{{g7aa}} = mapa de hidrografia
+{{h01hf}} = mapa de declividade
+{{dh19a}} = imagem do croqui de acesso
+9ashd = texto do coeficiente de variação
+0jasa = paginas enumeradas no laudo
+g0jd1 = introdução do texto das declividades
+as8ghd9a = lista de nomes dos imveis
+biasd91 = resposta da ia para as descrições do municipio
+#8g7a8 = descrição do imovel avaliando
